@@ -333,9 +333,15 @@ function make_car()
 end
 
 function calculate_speed(car)
- local speed = flr((car.current_rpm / car.rpm_max) *
-  car.gears_data[car.current_gear][1])
- return speed
+ if car.current_gear > 0 then
+  return flr((car.current_rpm / car.rpm_max) *
+   car.gears_data[car.current_gear][1])
+ else
+  if car.previous_gear > 0 then
+   return flr((car.current_rpm / car.rpm_max) *
+    car.gears_data[car.previous_gear][1])
+  end
+ end
 end 
 
 function car_update(car)
