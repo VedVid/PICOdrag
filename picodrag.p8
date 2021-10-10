@@ -342,16 +342,18 @@ function calculate_speed(car)
     car.gears_data[car.previous_gear][1])
   end
  end
+ return 0
 end 
 
 function car_update(car)
- if car.current_gear == 0 then
-  return false
- end
  local rpm_plus = 70 -- safe fixed value
- rpm_plus = flr(
-  car.rpm_max / car.gears_data[car.current_gear][2] / fps)
- car.current_rpm += rpm_plus
+ if car.current_gear == 0 then
+  car.current_rpm -= rpm_plus
+ else
+  rpm_plus = flr(
+   car.rpm_max / car.gears_data[car.current_gear][2] / fps)
+  car.current_rpm += rpm_plus
+ end
  if car.current_rpm > car.rpm_max then
   car.current_rpm = car.rpm_max
  elseif car.current_rpm < 0 then
