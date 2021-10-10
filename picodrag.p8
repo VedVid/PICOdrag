@@ -266,10 +266,15 @@ function make_car()
  -- {nm, rpm}
  car.torque_max = {206, 3000}
  car.gear_one_vmax = 47
+ car.gear_one_acc = 3.01
  car.gear_two_vmax = 82
+ car.gear_two_acc = 6.34
  car.gear_three_vmax = 121
+ car.gear_three_acc = 14.63
  car.gear_four_vmax = 160
+ car.gear_four_acc = 54.96
  car.gear_five_vmax = 212
+ car.gear_five_acc = 118.20
  return car
 end
 
