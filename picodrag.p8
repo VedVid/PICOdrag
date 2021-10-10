@@ -327,6 +327,8 @@ function car_update(car)
  car.current_rpm += 70
  if car.current_rpm > car.rpm_max then
   car.current_rpm = car.rpm_max
+ elseif car.current_rpm < 0 then
+  car.current_rpm = 0
  end
  car.current_speed = calculate_speed(car)
  return true
