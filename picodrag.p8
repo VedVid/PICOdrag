@@ -6,6 +6,7 @@ __lua__
 function _init()
  pi = 3.14
  ui = create_ui()
+ car = make_car()
 end
 
 function _update()
@@ -21,6 +22,7 @@ function _draw()
   print("no")
  end
 end
+
 -->8
 -- creation of ui elements
 
@@ -283,12 +285,6 @@ end
 -- calculator: https://x-engineer.org/automotive-engineering/chassis/vehicle-dynamics/calculate-wheel-vehicle-speed-engine-speed/
 -- formula: v = (3.6 * rpm * pi * wheel_ratio) /
 --              (30 * gear_ratio * final_ratio)
-function calculate_speed(rpm, gear, car)
- local v = 0
- v = 3.6 * rpm * pi * car.wheel_ratio
- v = v / (30 * car.gear_ratios[gear] * car.final_drive_ratio)
- return flr(v)
-end
 
 __gfx__
 00000000666666666666666600000000000000005566555555666555556665550000000000000000000000000000000000000000000000000000000000000000
