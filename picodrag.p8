@@ -13,10 +13,6 @@ end
 function _update()
  handle_keys()
  car_update(car)
- if btnp(5) then
-  car.current_gear += 1
-  car.current_rpm -= car.gears_data[car.current_gear][3]
- end
 end
 
 function _draw()
