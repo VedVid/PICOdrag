@@ -216,12 +216,16 @@ function handle_keys()
   if cgear ==
    ui.gearbox.gears.zero_left then
    ngear = ui.gearbox.gears.one
+   car.current_gear = 1
+   
   elseif cgear ==
    ui.gearbox.gears.two then
    ngear = ui.gearbox.gears.zero_left
+   car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_middle then
    ngear = ui.gearbox.gears.three
+   car_current
   elseif cgear ==
    ui.gearbox.gears.four then
    ngear = ui.gearbox.gears.zero_middle
@@ -308,6 +312,7 @@ function make_car()
    car.gear_five_time,
    car.gear_five_dropdown}}
  car.current_gear = 0
+ car.previous_gear = 0
  car.current_rpm = 0
  car.current_speed = 0
  return car
@@ -334,6 +339,63 @@ function car_update(car)
  end
  car.current_speed = calculate_speed(car)
  return true
+end
+
+function car_calc_dropdown(car)
+ if car.previous_gear == 1 then
+  if car.current_gear == 2 then
+   car.current_rpm -= car.gear_two_dropdown
+  elseif car.current_gear == 3 then
+   car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown)
+  elseif car.current_gear == 4 then
+   car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown + car_gear_four_dropdown)
+  elseif car.current_gear == 5 then
+   car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown + car.gear_four_dropdown + car.gear_five_dropdown) 
+  end
+  
+ elseif car.previous_gear == 2 then
+  if car.current_gear == 1 then
+   car.current_rpm += car.gear_two_dropdown
+  elseif car.current_gear == 3 then
+   car.current_rpm -= car.gear_three_dropdown
+  elseif car.current_gear == 4 then
+   car.current_rpm -= (car.gear_three_dropdown + car.gear_four_dropdown)
+  elseif car.current_gear == 5 then
+   car.current_rpm -= (car.gear_three_dropdown + car.gear_four_dropdwon + car.gear_five_dropdown)
+  end
+  
+ elseif car.previous_gear == 3 then
+  if car.current_gear == 1 then
+   car.current_rpm += (car.gear_one_dropdown + car.gear_two_dropdown)
+  elseif car.current_gear == 2 then
+   car.current_rpm += car.gear_two_dropdown
+  elseif car.current_gear == 4 then
+   car.current_rpm -= car.gear_four_dropdown
+  elseif car.current_gear == 5 then
+   car.current_rpm -= (car.gear_four_dropdown + car.gear_five_dropdown)
+  end
+
+ elseif car.previous_gear == 4 then
+  if car.current_gear == 1 then
+   car.current_rpm += (car.gear_one_dropdown + car.gear_two_dropdown + car.gear_three_dropdown)
+  elseif car.current_gear == 2 then
+   car.current_rpm += (car.gear_two_dropdown + car.gear_three_dropdown)
+  elseif car.current_gear == 3 then
+   car.current_rpm += car.gear_three_dropdown
+  elseif car.current_gear == 5 then
+   car.current_rpm -= car.gear_five_dropdown
+  end
+
+ elseif car.previous_gear == 5 then
+  if car.current_gear == 1 then
+   car.current_rpm += (car.gear_one_dropdown + car.gear_two_dropdown + car.gear_three_dropdown + car.gear_four_dropdown)
+  elseif car.current_gear == 2 then
+   car.current_rpm += (car.gear_two_dropdown + car.gear_three_dropdown + car.gear_four_dropdown)
+  elseif car.current_gear == 3 then
+   car.current_rpm += (car.gear_three_dropdown + car.gear_four_dropdown)
+  elseif car.current_gear == 4 then
+   car.current_rpm += car.gear_four_dropdown
+  end
 end
 
 -- useful links:
