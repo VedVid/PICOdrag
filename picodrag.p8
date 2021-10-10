@@ -280,9 +280,32 @@ function make_car()
  car.gear_five_vmax = 212
  car.gear_five_time = 118.20
  car.gear_five_dropdown = 1100
+ car.gears_data = {
+  {car.gear_one_vmax,
+   car.gear_one_time,
+   car.gear_one_dropdown},
+  {car.gear_two_vmax,
+   car.gear_two_time,
+   car.gear_two_dropdown},
+  {car.gear_three_vmax,
+   car.gear_three_time,
+   car.gear_three_dropdown},
+  {car.gear_four_vmax,
+   car.gear_four_time,
+   car.gear_four_dropdown},
+  {car.gear_five_vmax,
+   car.gear_five_time,
+   car.gear_five_dropdown}}
  return car
 end
 
+function calculator(car, gear, rpm)
+ local speed = flr((rpm / car.rpm_max) *
+  car.gears_data[gear][1]))
+ return speed
+end 
+
+-- useful links:
 -- calculator: https://x-engineer.org/automotive-engineering/chassis/vehicle-dynamics/calculate-wheel-vehicle-speed-engine-speed/
 -- formula: v = (3.6 * rpm * pi * wheel_ratio) /
 --              (30 * gear_ratio * final_ratio)
