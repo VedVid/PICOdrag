@@ -11,6 +11,9 @@ end
 
 function _update()
  handle_keys()
+ if btnp(4) then
+  car_update(car)
+ end
 end
 
 function _draw()
@@ -19,17 +22,9 @@ function _draw()
  if ui.gearbox.current_gear then
   print(ui.gearbox.current_gear[1]..":"..ui.gearbox.current_gear[2])
  else
-  print("no")
+  print("no gearbox info")
  end
- print(calculate_speed(car,1,5500))
- print(calculate_speed(car,2,5500-2000))
- print(calculate_speed(car,2,5500))
- print(calculate_speed(car,3,5500-1500))
- print(calculate_speed(car,3,5500))
- print(calculate_speed(car,4,5500-1200))
- print(calculate_speed(car,4,5500))
- print(calculate_speed(car,5,5500-1100))
- print(calculate_speed(car,5,5500))
+ print(car.current_rpm.."rpm, "..car.current_speed.."kmph")
 end
 
 -->8
@@ -305,14 +300,26 @@ function make_car()
   {car.gear_five_vmax,
    car.gear_five_time,
    car.gear_five_dropdown}}
+ car.current_gear = 0
+ car.current_rpm = 0
+ car.current_speed = 0
  return car
 end
 
-function calculate_speed(car, gear, rpm)
- local speed = flr((rpm / car.rpm_max) *
-  car.gears_data[gear][1])
+function calculate_speed(car)
+ local speed = flr((car.current_rpm / car.rpm_max) *
+  car.gears_data[gear][car.current_gear])
  return speed
 end 
+
+function car_update(car)
+ if car.current_gear == 0 then
+  return false
+ end
+ car.current_rpm += 70
+ car.current_speed = calculate_speed(car)
+ return true
+end
 
 -- useful links:
 -- calculator: https://x-engineer.org/automotive-engineering/chassis/vehicle-dynamics/calculate-wheel-vehicle-speed-engine-speed/
