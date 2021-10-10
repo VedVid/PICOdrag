@@ -104,6 +104,12 @@ function draw_gauges()
   spr(v, x, y)
   xoff += 1
  end
+ 
+ rectfill(ui.speedometer.x,
+  ui.speedometer.y-1,
+  ui.speedometer.x+1,
+  ui.speedometer.y+8,
+  10)
 
  xoff = 0
  for k, v in pairs(ui.tachometer.sprites) do
@@ -112,6 +118,12 @@ function draw_gauges()
   spr(v, x, y)
   xoff += 1
  end
+
+ rectfill(ui.tachometer.x,
+  ui.tachometer.y-1,
+  ui.tachometer.x+1,
+  ui.tachometer.y+8,
+  10)
 end
 
 function draw_gearbox()
