@@ -258,18 +258,18 @@ function make_car()
  local car = {}
  car.brand = "abarth"
  car.model = "595"
- car.variant = "competizione"
+ car.variant = ""
  car.engine = "1.4 t-jet"
  car.year = 2017
- car.horsepower = 180
+ car.horsepower = 160
  car.rpm_max = 5500
  -- {nm, rpm}
- car.torque_max = {230, 3000}
- car.gear_one_vmax = 62
- car.gear_two_vmax = 99
- car.gear_three_vmax = 146
- car.gear_four_vmax = 191
- car.gear_five_vmax = 255
+ car.torque_max = {206, 3000}
+ car.gear_one_vmax = 47
+ car.gear_two_vmax = 82
+ car.gear_three_vmax = 121
+ car.gear_four_vmax = 160
+ car.gear_five_vmax = 212
  return car
 end
 
