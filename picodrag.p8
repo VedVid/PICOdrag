@@ -265,20 +265,11 @@ function make_car()
  car.rpm_max = 5500
  -- {nm, rpm}
  car.torque_max = {230, 3000}
- car.wheel_ratio = 0.4
- car.gear_one_ratio = 3.55
- car.gear_two_ratio = 2.24
- car.gear_three_ratio = 1.52
- car.gear_four_ratio = 1.16
- car.gear_five_ratio = 0.87
- car.final_drive_ratio = 3.73
- car.gear_reverse_ratio = 3.91
- car.gear_ratios = {
-  car.gear_one_ratio,
-  car.gear_two_ratio,
-  car.gear_three_ratio,
-  car.gear_four_ratio,
-  car.gear_five_ratio}
+ car.gear_one_vmax = 62
+ car.gear_two_vmax = 99
+ car.gear_three_vmax = 146
+ car.gear_four_vmax = 191
+ car.gear_five_vmax = 255
  return car
 end
 
