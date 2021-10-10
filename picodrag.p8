@@ -346,7 +346,7 @@ function calculate_speed(car)
 end 
 
 function car_update(car)
- local rpm_plus = 70 -- safe fixed value
+ local rpm_plus = 30 -- safe fixed value
  if car.current_gear == 0 then
   car.current_rpm -= rpm_plus
  else
