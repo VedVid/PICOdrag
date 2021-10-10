@@ -258,7 +258,7 @@ function handle_keys()
  if ngear then
   ui.gearbox.current_gear = ngear
   ui.gearbox.handle.x += 8*dir[1]
-  ui.gearbox.handle.y += 8*dir[2] 
+  ui.gearbox.handle.y += 8*dir[2]
  end
 end
 
