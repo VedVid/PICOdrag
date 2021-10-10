@@ -258,7 +258,7 @@ function handle_keys()
  if ngear then
   ui.gearbox.current_gear = ngear
   ui.gearbox.handle.x += 8*dir[1]
-  ui.gearbox.handle.y += 8*dir[2]
+  ui.gearbox.handle.y += 8*dir[2] 
  end
 end
 
@@ -307,7 +307,7 @@ function make_car()
   {car.gear_five_vmax,
    car.gear_five_time,
    car.gear_five_dropdown}}
- car.current_gear = 1
+ car.current_gear = 0
  car.current_rpm = 0
  car.current_speed = 0
  return car
