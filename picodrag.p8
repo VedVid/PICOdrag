@@ -13,6 +13,10 @@ function _update()
  handle_keys()
  if btnp(4) then
   car_update(car)
+ elseif btnp(5) then
+  car.current_gear += 1
+  car.current_rpm -= car.gears_data[car.current_gear][3]
+  car_update(car)
  end
 end
 
@@ -24,7 +28,11 @@ function _draw()
  else
   print("no gearbox info")
  end
- print(car.current_rpm.."rpm, "..car.current_speed.."kmph")
+ if (car.current_rpm) or (car.current_speed) then
+  print(car.current_rpm.."rpm, "..car.current_speed.."kmph")
+ else
+  print("no rpm and speed info")
+ end
 end
 
 -->8
@@ -300,7 +308,7 @@ function make_car()
   {car.gear_five_vmax,
    car.gear_five_time,
    car.gear_five_dropdown}}
- car.current_gear = 0
+ car.current_gear = 1
  car.current_rpm = 0
  car.current_speed = 0
  return car
@@ -308,7 +316,7 @@ end
 
 function calculate_speed(car)
  local speed = flr((car.current_rpm / car.rpm_max) *
-  car.gears_data[gear][car.current_gear])
+  car.gears_data[car.current_gear][1])
  return speed
 end 
 
@@ -317,6 +325,9 @@ function car_update(car)
   return false
  end
  car.current_rpm += 70
+ if car.current_rpm > car.rpm_max then
+  car.current_rpm = car.rpm_max
+ end
  car.current_speed = calculate_speed(car)
  return true
 end
