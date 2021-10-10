@@ -21,12 +21,15 @@ function _draw()
  else
   print("no")
  end
- print(calculate_speed(car,1,1000,47))
- print(calculate_speed(car,1,3000,47))
- print(calculate_speed(car,1,5500,47))
- print(calculate_speed(car,2,1000,82))
- print(calculate_speed(car,2,3000,82))
- print(calculate_speed(car,2,5500,82))
+ print(calculate_speed(car,1,5500))
+ print(calculate_speed(car,2,5500-2000))
+ print(calculate_speed(car,2,5500))
+ print(calculate_speed(car,3,5500-1500))
+ print(calculate_speed(car,3,5500))
+ print(calculate_speed(car,4,5500-1200))
+ print(calculate_speed(car,4,5500))
+ print(calculate_speed(car,5,5500-1100))
+ print(calculate_speed(car,5,5500))
 end
 
 -->8
