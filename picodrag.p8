@@ -91,6 +91,11 @@ end
 -- drawing functions
 
 function draw_ui(ui)
+ draw_gauges()
+ draw_gearbox()
+end
+
+function draw_gauges()
  local xoff = 0
 
  for k, v in pairs(ui.speedometer.sprites) do
@@ -107,7 +112,9 @@ function draw_ui(ui)
   spr(v, x, y)
   xoff += 1
  end
+end
 
+function draw_gearbox()
  spr(ui.gearbox.back.sprites[1],
   ui.gearbox.x-8,
   ui.gearbox.y-8)
