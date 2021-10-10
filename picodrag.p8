@@ -217,7 +217,6 @@ function handle_keys()
    ui.gearbox.gears.zero_left then
    ngear = ui.gearbox.gears.one
    car.current_gear = 1
-   
   elseif cgear ==
    ui.gearbox.gears.two then
    ngear = ui.gearbox.gears.zero_left
@@ -225,37 +224,46 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.zero_middle then
    ngear = ui.gearbox.gears.three
-   car_current
+   car.current_gear = 3
   elseif cgear ==
    ui.gearbox.gears.four then
    ngear = ui.gearbox.gears.zero_middle
+   car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_right then
    ngear = ui.gearbox.gears.five
+   car.current_gear = 5
   elseif cgear ==
    ui.gearbox.gears.reverse then
    ngear = ui.gearbox.gears.zero_right
+   car.current_gear = 0
   end
  elseif btnp(3) then
   dir = {0,1}
   if cgear ==
    ui.gearbox.gears.one then
    ngear = ui.gearbox.gears.zero_left
+   car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_left then
    ngear = ui.gearbox.gears.two
+   car.current_gear = 2
   elseif cgear ==
    ui.gearbox.gears.three then
    ngear = ui.gearbox.gears.zero_middle
+   car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_middle then
    ngear = ui.gearbox.gears.four
+   car.current_gear = 4
   elseif cgear ==
    ui.gearbox.gears.five then
    ngear = ui.gearbox.gears.zero_right
+   car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_right then
    ngear = ui.gearbox.gears.reverse
+   car.current_gear = 0
   end
  end
  
@@ -396,6 +404,7 @@ function car_calc_dropdown(car)
   elseif car.current_gear == 4 then
    car.current_rpm += car.gear_four_dropdown
   end
+ end
 end
 
 -- useful links:
