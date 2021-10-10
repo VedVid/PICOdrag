@@ -39,6 +39,10 @@ function create_gauge(x, y, sprites)
  gauge.x = x
  gauge.y = y
  gauge.sprites = sprites
+ gauge.indicator_x1 = x
+ gauge.indicator_x2 = x+1
+ gauge.indicator_y1 = y-1
+ gauge.indicator_y2 = y+8
  return gauge
 end
 
@@ -105,10 +109,11 @@ function draw_gauges()
   xoff += 1
  end
  
- rectfill(ui.speedometer.x,
-  ui.speedometer.y-1,
-  ui.speedometer.x+1,
-  ui.speedometer.y+8,
+ rectfill(
+  ui.speedometer.indicator_x1,
+  ui.speedometer.indicator_y1,
+  ui.speedometer.indicator_x2,
+  ui.speedometer.indicator_y2,
   10)
 
  xoff = 0
@@ -119,10 +124,11 @@ function draw_gauges()
   xoff += 1
  end
 
- rectfill(ui.tachometer.x,
-  ui.tachometer.y-1,
-  ui.tachometer.x+1,
-  ui.tachometer.y+8,
+ rectfill(
+  ui.tachometer.indicator_x1,
+  ui.tachometer.indicator_y1,
+  ui.tachometer.indicator_x2,
+  ui.tachometer.indicator_y2,
   10)
 end
 
