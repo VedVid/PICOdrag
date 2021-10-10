@@ -5,18 +5,17 @@ __lua__
 
 function _init()
  pi = 3.14
+ fps = 30
  ui = create_ui()
  car = make_car()
 end
 
 function _update()
  handle_keys()
- if btnp(4) then
-  car_update(car)
- elseif btnp(5) then
+ car_update(car)
+ if btnp(5) then
   car.current_gear += 1
   car.current_rpm -= car.gears_data[car.current_gear][3]
-  car_update(car)
  end
 end
 
@@ -324,7 +323,10 @@ function car_update(car)
  if car.current_gear == 0 then
   return false
  end
- car.current_rpm += 70
+ local rpm_plus = 70 -- safe fixed value
+ rpm_plus = flr(
+  car.rpm_max / car.gears_data[car.current_gear][2] / fps)
+ car.current_rpm += rpm_plus
  if car.current_rpm > car.rpm_max then
   car.current_rpm = car.rpm_max
  elseif car.current_rpm < 0 then
