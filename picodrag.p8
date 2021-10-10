@@ -21,6 +21,12 @@ function _draw()
  else
   print("no")
  end
+ print(calculate_speed(car,1,1000,47))
+ print(calculate_speed(car,1,3000,47))
+ print(calculate_speed(car,1,5500,47))
+ print(calculate_speed(car,2,1000,82))
+ print(calculate_speed(car,2,3000,82))
+ print(calculate_speed(car,2,5500,82))
 end
 
 -->8
@@ -299,9 +305,9 @@ function make_car()
  return car
 end
 
-function calculator(car, gear, rpm)
+function calculate_speed(car, gear, rpm)
  local speed = flr((rpm / car.rpm_max) *
-  car.gears_data[gear][1]))
+  car.gears_data[gear][1])
  return speed
 end 
 
