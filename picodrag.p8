@@ -4,6 +4,7 @@ __lua__
 -- game loop
 
 function _init()
+ pi = 3.14
  ui = create_ui()
 end
 
@@ -246,6 +247,47 @@ function handle_keys()
   ui.gearbox.handle.x += 8*dir[1]
   ui.gearbox.handle.y += 8*dir[2]
  end
+end
+
+-->8
+-- cars and related math
+
+function make_car()
+ local car = {}
+ car.brand = "abarth"
+ car.model = "595"
+ car.variant = "competizione"
+ car.engine = "1.4 t-jet"
+ car.year = 2017
+ car.horsepower = 180
+ car.rpm_max = 5500
+ -- {nm, rpm}
+ car.torque_max = {230, 3000}
+ car.wheel_ratio = 0.4
+ car.gear_one_ratio = 3.55
+ car.gear_two_ratio = 2.24
+ car.gear_three_ratio = 1.52
+ car.gear_four_ratio = 1.16
+ car.gear_five_ratio = 0.87
+ car.final_drive_ratio = 3.73
+ car.gear_reverse_ratio = 3.91
+ car.gear_ratios = {
+  car.gear_one_ratio,
+  car.gear_two_ratio,
+  car.gear_three_ratio,
+  car.gear_four_ratio,
+  car.gear_five_ratio}
+ return car
+end
+
+-- calculator: https://x-engineer.org/automotive-engineering/chassis/vehicle-dynamics/calculate-wheel-vehicle-speed-engine-speed/
+-- formula: v = (3.6 * rpm * pi * wheel_ratio) /
+--              (30 * gear_ratio * final_ratio)
+function calculate_speed(rpm, gear, car)
+ local v = 0
+ v = 3.6 * rpm * pi * car.wheel_ratio
+ v = v / (30 * car.gear_ratios[gear] * car.final_drive_ratio)
+ return flr(v)
 end
 
 __gfx__
