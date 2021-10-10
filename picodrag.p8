@@ -276,6 +276,7 @@ function handle_keys()
   ui.gearbox.current_gear = ngear
   ui.gearbox.handle.x += 8*dir[1]
   ui.gearbox.handle.y += 8*dir[2]
+  car_calc_dropdown(car)
  end
 end
 
