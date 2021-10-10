@@ -220,6 +220,7 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.two then
    ngear = ui.gearbox.gears.zero_left
+   car.previous_gear = 2
    car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_middle then
@@ -228,6 +229,7 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.four then
    ngear = ui.gearbox.gears.zero_middle
+   car.previous_gear = 4
    car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_right then
@@ -243,6 +245,7 @@ function handle_keys()
   if cgear ==
    ui.gearbox.gears.one then
    ngear = ui.gearbox.gears.zero_left
+   car.previous_gear = 1
    car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_left then
@@ -251,6 +254,7 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.three then
    ngear = ui.gearbox.gears.zero_middle
+   car.previous_gear = 3
    car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_middle then
@@ -259,6 +263,7 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.five then
    ngear = ui.gearbox.gears.zero_right
+   car.previous_gear = 5
    car.current_gear = 0
   elseif cgear ==
    ui.gearbox.gears.zero_right then
