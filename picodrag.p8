@@ -309,6 +309,63 @@ function make_car()
  return make_abarth()
 end
 
+function make_honda()
+ local car = {}
+ car.brand = "honda"
+ car.model = "civic"
+ car.variant = "type r"
+ car.engine = "2.0 vtec"
+ car.year = 2020
+ car.horsepower = 320
+ car.rpm_max = 6500
+ -- {nm, rpm}
+ car.torque_max = {400, 3500}
+ car.gear_one_ratio = 3.63
+ car.gear_one_vmax = 56
+ car.gear_one_time = 2.2
+ car.gear_one_dropdown = 1000
+ car.gear_two_ratio = 2.12
+ car.gear_two_vmax = 96
+ car.gear_two_time = 4.4
+ car.gear_two_dropdown = 2300 
+ car.gear_three_ratio = 1.53
+ car.gear_three_vmax = 132
+ car.gear_three_time = 7.4
+ car.gear_three_dropdown = 1600
+ car.gear_four_ratio = 1.13
+ car.gear_four_vmax = 179
+ car.gear_four_time = 14.2
+ car.gear_four_dropdown = 1600
+ car.gear_five_ratio = 0.91
+ car.gear_five_vmax = 223
+ car.gear_five_time = 27.3
+ car.gear_five_dropdown = 1200
+ car.gear_six_ratio = 0.74
+ car.gear_six_vmax = 272
+ car.gear_six_time = 95.1
+ car.gear_six_dropdown =1250
+ car.gears_data = {
+  {car.gear_one_vmax,
+   car.gear_one_time,
+   car.gear_one_dropdown},
+  {car.gear_two_vmax,
+   car.gear_two_time,
+   car.gear_two_dropdown},
+  {car.gear_three_vmax,
+   car.gear_three_time,
+   car.gear_three_dropdown},
+  {car.gear_four_vmax,
+   car.gear_four_time,
+   car.gear_four_dropdown},
+  {car.gear_five_vmax,
+   car.gear_five_time,
+   car.gear_five_dropdown}}
+ car.current_gear = 0
+ car.previous_gear = 0
+ car.current_rpm = 0
+ car.current_speed = 0
+end
+
 function make_abarth()
  local car = {}
  car.brand = "abarth"
@@ -321,19 +378,19 @@ function make_abarth()
  -- {nm, rpm}
  car.torque_max = {206, 3000}
  car.gear_one_vmax = 47
- car.gear_one_time = 3.01
- car.gear_one_dropdown = 0
+ car.gear_one_time = 3.0
+ car.gear_one_dropdown = 1000
  car.gear_two_vmax = 82
- car.gear_two_time = 6.34
+ car.gear_two_time = 6.3
  car.gear_two_dropdown = 2000
  car.gear_three_vmax = 121
- car.gear_three_time = 14.63
+ car.gear_three_time = 14.6
  car.gear_three_dropdown = 1500
  car.gear_four_vmax = 160
- car.gear_four_time = 54.96
+ car.gear_four_time = 54.9
  car.gear_four_dropdown = 1200
  car.gear_five_vmax = 212
- car.gear_five_time = 118.20
+ car.gear_five_time = 118.2
  car.gear_five_dropdown = 1100
  car.gears_data = {
   {car.gear_one_vmax,
