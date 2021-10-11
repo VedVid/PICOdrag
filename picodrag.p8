@@ -318,6 +318,8 @@ function make_honda()
  car.year = 2020
  car.horsepower = 320
  car.rpm_max = 6500
+ car.final_drive_ratio = 4.11
+ car.wheel_ratio = 0.34
  -- {nm, rpm}
  car.torque_max = {400, 3500}
  car.gear_one_ratio = 3.63
@@ -343,7 +345,7 @@ function make_honda()
  car.gear_six_ratio = 0.74
  car.gear_six_vmax = 272
  car.gear_six_time = 95.1
- car.gear_six_dropdown =1250
+ car.gear_six_dropdown = 1250
  car.gears_data = {
   {car.gear_one_vmax,
    car.gear_one_time,
