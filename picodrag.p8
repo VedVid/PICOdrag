@@ -71,9 +71,10 @@ end
 
 function create_tachometer(x, y)
  local sprites = {}
- for i=1, (car.speed_max_for_gauge / 1000)  do
+ for i=1, (car.rpm_max_for_gauge / 1000) - 1  do
   add(sprites, 17)
  end
+ add(sprites, 18)
  add(sprites, 18)
  add(sprites, 18)
  return
@@ -317,7 +318,7 @@ end
 -- cars and related math
 
 function make_car()
- return make_abarth()
+ return make_honda()
 end
 
 function make_honda()
