@@ -238,6 +238,9 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.zero_right then
    ngear = ui.gearbox.gears.zero_middle
+  elseif (car.gears_data[6] and
+   ui.gearsbox.gears.zero_right_right) then
+   ngear = ui.gearbox.gears.zero_right
   end
  elseif btnp(1) then
   dir = {1,0}
@@ -247,6 +250,9 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.zero_middle then
    ngear = ui.gearbox.gears.zero_right
+  elseif (car.gears_data[6] and
+   ui.gearbox.gears.zero_right) then
+   ngear = ui.gearbox.zero_right_right
   end 
  elseif btnp(2) then
   dir = {0,-1}
@@ -272,9 +278,21 @@ function handle_keys()
    ui.gearbox.gears.zero_right then
    ngear = ui.gearbox.gears.five
    car.current_gear = 5
-  elseif cgear ==
-   ui.gearbox.gears.reverse then
+  elseif (cgear ==
+   ui.gearbox.gears.reverse and
+   not car.gears_data[6]) then
    ngear = ui.gearbox.gears.zero_right
+   car.current_gear = 0
+  elseif (cgear ==
+   ui.gearbox.gears.six and
+   car.gears_data[6]) then
+   ngear = ui.gearbox.gears.zero_right
+   car.previous_gear = 6
+   car.current_gear = 0
+  elseif (cgear ==
+   ui.gearbox.gears.reverse and
+   car.gears_data[6]) then
+   ngear = ui.gearbox.gears.zero_right_right
    car.current_gear = 0
   end
  elseif btnp(3) then
@@ -302,10 +320,16 @@ function handle_keys()
    ngear = ui.gearbox.gears.zero_right
    car.previous_gear = 5
    car.current_gear = 0
-  elseif cgear ==
-   ui.gearbox.gears.zero_right then
+  elseif (cgear ==
+   ui.gearbox.gears.zero_right and
+   not car.gears_data[6]) then
    ngear = ui.gearbox.gears.reverse
    car.current_gear = 0
+  elseif (cgear ==
+   ui.gearbox.gears.zero_right and
+   car.gears_data[6]) then
+   ngear = ui.gearbox.gears.six
+   car.current_gear = 6
   end
  end
  
@@ -321,7 +345,7 @@ end
 -- cars and related math
 
 function make_car()
- return make_abarth()
+ return make_honda()
 end
 
 function make_honda()
