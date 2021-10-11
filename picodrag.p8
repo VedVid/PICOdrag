@@ -306,7 +306,7 @@ end
 -- cars and related math
 
 function make_car()
- return make_abarth()
+ return make_honda()
 end
 
 function make_honda()
@@ -366,6 +366,7 @@ function make_honda()
  car.previous_gear = 0
  car.current_rpm = 0
  car.current_speed = 0
+ return car
 end
 
 function make_abarth()
