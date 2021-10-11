@@ -34,14 +34,14 @@ end
 -->8
 -- creation of ui elements
 
-function create_ui()
+function create_ui(car)
  local ui = {}
  ui.speedometer =
   create_speedometer(0, 88, car)
  ui.tachometer =
   create_tachometer(0, 104)
  ui.gearbox =
-  create_gearbox(80, 108)
+  create_gearbox(80, 108, car)
  return ui
 end
 
@@ -81,15 +81,24 @@ function create_tachometer(x, y)
   create_gauge(x, y, sprites)
 end
 
-function create_gearbox(x, y)
+function create_gearbox(x, y, car)
  local gearbox = {}
  -- the center of the gearbox
  gearbox.x = x
  gearbox.y = y
 
  gearbox.back = {}
- gearbox.back.sprites = {
-  5,6,7,21,22,23,37,38,39,40,24,20}
+ if car.gears_data[6] then
+  gearbox.back.sprites = {
+   {5,6,7,20},
+   {21,22,22,24},
+   {37,38,39,40}}
+ else
+  gearbox.back.sprites = {
+   {5,6,7},
+   {21,22,23},
+   {37,38,40}}
+ end
 
  gearbox.handle = {}
  gearbox.handle.x = gearbox.x
@@ -181,54 +190,19 @@ function draw_gauges()
 end
 
 function draw_gearbox(car)
- spr(ui.gearbox.back.sprites[1],
-  ui.gearbox.x-8,
-  ui.gearbox.y-8)
- spr(ui.gearbox.back.sprites[2],
-  ui.gearbox.x,
-  ui.gearbox.y-8)
- spr(ui.gearbox.back.sprites[3],
-  ui.gearbox.x+8,
-  ui.gearbox.y-8)
- spr(ui.gearbox.back.sprites[4],
-  ui.gearbox.x-8,
-  ui.gearbox.y)
- spr(ui.gearbox.back.sprites[5],
-  ui.gearbox.x,
-  ui.gearbox.y)
- if car.gears_data[6] then
-  spr(ui.gearbox.back.sprites[5],
-   ui.gearbox.x+8,
-   ui.gearbox.y)
- else
-  spr(ui.gearbox.back.sprites[6],
-   ui.gearbox.x+8,
-   ui.gearbox.y)
+ local offx = -8
+ local offy = -8
+ 
+ for k, v in pairs(ui.gearbox.back.sprites) do
+  for k2, v2 in pairs(v) do
+   spr(v2, ui.gearbox.x + offx,
+    ui.gearbox.y + offy)
+   offx += 8
+  end
+  offx = -8
+  offy += 8
  end
- spr(ui.gearbox.back.sprites[7],
-  ui.gearbox.x-8,
-  ui.gearbox.y+8)
- spr(ui.gearbox.back.sprites[8],
-  ui.gearbox.x,
-  ui.gearbox.y+8)
- if car.gears_data[6] then
-  spr(ui.gearbox.back.sprites[12],
-   ui.gearbox.x+16,
-   ui.gearbox.y-8)
-  spr(ui.gearbox.back.sprites[9],
-   ui.gearbox.x+8,
-   ui.gearbox.y+8)
-  spr(ui.gearbox.back.sprites[11],
-   ui.gearbox.x+16,
-   ui.gearbox.y)
-  spr(ui.gearbox.back.sprites[10],
-   ui.gearbox.x+16,
-   ui.gearbox.y+8)
- else
-  spr(ui.gearbox.back.sprites[10],
-   ui.gearbox.x+8,
-   ui.gearbox.y+8)
- end
+
  spr(ui.gearbox.handle.sprite,
   ui.gearbox.handle.x,
   ui.gearbox.handle.y)
@@ -339,7 +313,7 @@ end
 -- cars and related math
 
 function make_car()
- return make_honda()
+ return make_abarth()
 end
 
 function make_honda()
