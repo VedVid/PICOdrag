@@ -377,6 +377,8 @@ function make_abarth()
  car.year = 2017
  car.horsepower = 160
  car.rpm_max = 5500
+ car.final_drive_ratio = 3.36
+ car.wheel_ratio = 0.30
  -- {nm, rpm}
  car.torque_max = {206, 3000}
  car.gear_one_vmax = 47
