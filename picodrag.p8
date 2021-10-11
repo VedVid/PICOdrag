@@ -66,7 +66,7 @@ end
 function create_tachometer(x, y)
  return
   create_gauge(x, y,
-   {17,17,17,17,17,18,18,18})
+   {17,17,17,17,18,18,18})
 end
 
 function create_gearbox(x, y)
