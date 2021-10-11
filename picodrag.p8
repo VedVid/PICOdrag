@@ -331,6 +331,11 @@ function handle_keys()
    car.gears_data[6]) then
    ngear = ui.gearbox.gears.six
    car.current_gear = 6
+  elseif (cgear ==
+   ui.gearbox.gears.zero_right_right and
+   car.gears_data[6]) then
+   ngear = ui.gearbox.gears.reverse
+   car.current_gear = 0
   end
  end
  
@@ -346,7 +351,7 @@ end
 -- cars and related math
 
 function make_car()
- return make_honda()
+ return make_abarth()
 end
 
 function make_honda()
