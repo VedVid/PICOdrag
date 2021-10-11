@@ -13,6 +13,7 @@ end
 function _update()
  handle_keys()
  car_update(car)
+ gauges_update(ui, car)
 end
 
 function _draw()
@@ -101,6 +102,19 @@ function create_gearbox(x, y)
   gearbox.gears.zero_middle
  return gearbox
 end
+
+function gauges_update(ui, car)
+ -- 1 tile = 20 km
+ -- 1 tile = 8 px
+ -- 1 px = 20 km / 8 px
+ local px = 20 / 8
+ local pos = flr(
+  ui.speedometer.x + (
+  car.current_speed / px))
+ ui.speedometer.indicator_x1 = pos
+ ui.speedometer.indicator_x2 = pos + 1
+end
+
 -->8
 -- drawing functions
 
