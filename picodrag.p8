@@ -6,8 +6,8 @@ __lua__
 function _init()
  pi = 3.14
  fps = 30
- ui = create_ui()
  car = make_car()
+ ui = create_ui(car)
 end
 
 function _update()
@@ -37,7 +37,7 @@ end
 function create_ui()
  local ui = {}
  ui.speedometer =
-  create_speedometer(0, 88)
+  create_speedometer(0, 88, car)
  ui.tachometer =
   create_tachometer(0, 104)
  ui.gearbox =
@@ -57,10 +57,16 @@ function create_gauge(x, y, sprites)
  return gauge
 end
 
-function create_speedometer(x, y)
+function create_speedometer(x, y, car)
+ local sprites = {}
+ for i=1, (car.speed_max_for_gauge / car.speedometer_interval) do
+  add(sprites, 1)
+ end
+ add(sprites, 2)
+ add(sprites, 2)
+ add(sprites, 2)
  return
-  create_gauge(x, y,
-   {1,1,1,1,1,1,1,1,1,2,2,2})
+  create_gauge(x, y, sprites)
 end
 
 function create_tachometer(x, y)
@@ -316,8 +322,10 @@ function make_honda()
  car.variant = "type r"
  car.engine = "2.0 vtec"
  car.year = 2020
+ car.speedometer_interval = 20
  car.horsepower = 320
  car.rpm_max = 6500
+ car.speed_max_for_gauge = 280
  car.final_drive_ratio = 4.11
  car.wheel_ratio = 0.34
  -- {nm, rpm}
@@ -361,7 +369,10 @@ function make_honda()
    car.gear_four_dropdown},
   {car.gear_five_vmax,
    car.gear_five_time,
-   car.gear_five_dropdown}}
+   car.gear_five_dropdown},
+  {car.gear_six_vmax,
+   car.gear_six_time,
+   car.gear_six_dropdown}}
  car.current_gear = 0
  car.previous_gear = 0
  car.current_rpm = 0
@@ -376,8 +387,10 @@ function make_abarth()
  car.variant = ""
  car.engine = "1.4 t-jet"
  car.year = 2017
+ car.speedometer_interval = 20
  car.horsepower = 160
  car.rpm_max = 5500
+ car.speed_max_for_gauge = 220
  car.final_drive_ratio = 3.36
  car.wheel_ratio = 0.30
  -- {nm, rpm}
