@@ -511,7 +511,7 @@ function car_calc_dropdown(car)
   elseif car.current_gear == 3 then
    car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown)
   elseif car.current_gear == 4 then
-   car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown + car_gear_four_dropdown)
+   car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown + car.gear_four_dropdown)
   elseif car.current_gear == 5 then
    car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown + car.gear_four_dropdown + car.gear_five_dropdown) 
   end
