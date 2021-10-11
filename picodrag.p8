@@ -239,7 +239,7 @@ function handle_keys()
    ui.gearbox.gears.zero_right then
    ngear = ui.gearbox.gears.zero_middle
   elseif (car.gears_data[6] and
-   ui.gearsbox.gears.zero_right_right) then
+   ui.gearbox.gears.zero_right_right) then
    ngear = ui.gearbox.gears.zero_right
   end
  elseif btnp(1) then
@@ -250,9 +250,9 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.zero_middle then
    ngear = ui.gearbox.gears.zero_right
-  elseif (car.gears_data[6] and
-   ui.gearbox.gears.zero_right) then
-   ngear = ui.gearbox.zero_right_right
+  elseif cgear ==
+   ui.gearbox.gears.zero_right then
+   ngear = ui.gearbox.gears.zero_right_right
   end 
  elseif btnp(2) then
   dir = {0,-1}
