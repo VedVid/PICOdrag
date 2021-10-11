@@ -111,10 +111,10 @@ end
 
 function gauges_update(ui, car)
  -- speedometer
- -- 1 tile = 20 km
+ -- 1 tile = gauge_interval
  -- 1 tile = 8 px
  -- 1 px = 20 km / 8 px
- local px = 20 / 8
+ local px = car.speedometer_interval / 8
  local pos = flr(
   ui.speedometer.x + (
   car.current_speed / px))
@@ -322,7 +322,7 @@ function make_honda()
  car.variant = "type r"
  car.engine = "2.0 vtec"
  car.year = 2020
- car.speedometer_interval = 20
+ car.speedometer_interval = 30
  car.horsepower = 320
  car.rpm_max = 6500
  car.speed_max_for_gauge = 280
