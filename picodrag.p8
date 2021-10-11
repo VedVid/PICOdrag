@@ -306,6 +306,10 @@ end
 -- cars and related math
 
 function make_car()
+ return make_abarth()
+end
+
+function make_abarth()
  local car = {}
  car.brand = "abarth"
  car.model = "595"
