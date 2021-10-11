@@ -381,18 +381,23 @@ function make_abarth()
  car.wheel_ratio = 0.30
  -- {nm, rpm}
  car.torque_max = {206, 3000}
+ car.gear_one_ratio = 3.91
  car.gear_one_vmax = 47
  car.gear_one_time = 3.0
  car.gear_one_dropdown = 1000
+ car.gear_two_ratio = 2.24
  car.gear_two_vmax = 82
  car.gear_two_time = 6.3
  car.gear_two_dropdown = 2000
+ car.gear_three_ratio = 1.52
  car.gear_three_vmax = 121
  car.gear_three_time = 14.6
  car.gear_three_dropdown = 1500
+ car.gear_four_ratio = 1.16
  car.gear_four_vmax = 160
  car.gear_four_time = 54.9
  car.gear_four_dropdown = 1200
+ car.gear_five_ratio = 0.87
  car.gear_five_vmax = 212
  car.gear_five_time = 118.2
  car.gear_five_dropdown = 1100
