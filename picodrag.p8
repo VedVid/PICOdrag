@@ -106,6 +106,7 @@ function create_gearbox(x, y, car)
  gearbox.handle.sprite = 9
 
  gearbox.gears = {}
+ 
  gearbox.gears.zero_middle =
   {0,0}
  gearbox.gears.zero_left =
@@ -117,7 +118,14 @@ function create_gearbox(x, y, car)
  gearbox.gears.three = {0,-1}
  gearbox.gears.four = {0,1}
  gearbox.gears.five = {1,-1}
- gearbox.gears.reverse = {1,1}
+ if car.gears_data[6] then
+  gearbox.gears.six = {1,1}
+  gearbox.gears.zero_right_right =
+   {2,0}
+  gearbox.gears.reverse = {2,1}
+ else
+  gearbox.gears.reverse = {1,1}
+ end
 
  gearbox.current_gear =
   gearbox.gears.zero_middle
