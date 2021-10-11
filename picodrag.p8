@@ -104,6 +104,7 @@ function create_gearbox(x, y)
 end
 
 function gauges_update(ui, car)
+ -- speedometer
  -- 1 tile = 20 km
  -- 1 tile = 8 px
  -- 1 px = 20 km / 8 px
@@ -113,6 +114,17 @@ function gauges_update(ui, car)
   car.current_speed / px))
  ui.speedometer.indicator_x1 = pos
  ui.speedometer.indicator_x2 = pos + 1
+
+ -- tachometer
+ -- 1 tile = 1000 rpm
+ -- 1 tile = 8 px
+ -- 1 px = 1000 rpm / 8 px
+ px = 1000 / 8
+ pos = flr(
+  ui.tachometer.x + (
+  car.current_rpm / px))
+ ui.tachometer.indicator_x1 = pos
+ ui.tachometer.indicator_x2 = pos + 1
 end
 
 -->8
