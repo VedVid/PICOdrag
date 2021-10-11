@@ -59,7 +59,7 @@ end
 
 function create_speedometer(x, y, car)
  local sprites = {}
- for i=1, (car.speed_max_for_gauge / car.speedometer_interval) do
+ for i=1, (car.speed_max_for_gauge / car.speedometer_interval) - 1 do
   add(sprites, 1)
  end
  add(sprites, 2)
@@ -70,9 +70,14 @@ function create_speedometer(x, y, car)
 end
 
 function create_tachometer(x, y)
+ local sprites = {}
+ for i=1, (car.speed_max_for_gauge / 1000)  do
+  add(sprites, 17)
+ end
+ add(sprites, 18)
+ add(sprites, 18)
  return
-  create_gauge(x, y,
-   {17,17,17,17,18,18,18})
+  create_gauge(x, y, sprites)
 end
 
 function create_gearbox(x, y)
@@ -312,7 +317,7 @@ end
 -- cars and related math
 
 function make_car()
- return make_honda()
+ return make_abarth()
 end
 
 function make_honda()
@@ -325,7 +330,8 @@ function make_honda()
  car.speedometer_interval = 30
  car.horsepower = 320
  car.rpm_max = 6500
- car.speed_max_for_gauge = 280
+ car.rpm_max_for_gauge = 6000
+ car.speed_max_for_gauge = 260
  car.final_drive_ratio = 4.11
  car.wheel_ratio = 0.34
  -- {nm, rpm}
@@ -390,7 +396,8 @@ function make_abarth()
  car.speedometer_interval = 20
  car.horsepower = 160
  car.rpm_max = 5500
- car.speed_max_for_gauge = 220
+ car.rpm_max_for_gauge = 5000
+ car.speed_max_for_gauge = 200
  car.final_drive_ratio = 3.36
  car.wheel_ratio = 0.30
  -- {nm, rpm}
