@@ -6,8 +6,8 @@ __lua__
 function _init()
  pi = 3.14
  fps = 30
- ui = create_ui()
  car = make_car()
+ ui = create_ui(car)
 end
 
 function _update()
@@ -18,7 +18,7 @@ end
 
 function _draw()
  cls()
- draw_ui(ui)
+ draw_ui(ui, car)
  if ui.gearbox.current_gear then
   print(ui.gearbox.current_gear[1]..":"..ui.gearbox.current_gear[2])
  else
@@ -34,14 +34,14 @@ end
 -->8
 -- creation of ui elements
 
-function create_ui()
+function create_ui(car)
  local ui = {}
  ui.speedometer =
-  create_speedometer(0, 88)
+  create_speedometer(0, 88, car)
  ui.tachometer =
   create_tachometer(0, 104)
  ui.gearbox =
-  create_gearbox(80, 108)
+  create_gearbox(80, 108, car)
  return ui
 end
 
@@ -57,27 +57,48 @@ function create_gauge(x, y, sprites)
  return gauge
 end
 
-function create_speedometer(x, y)
+function create_speedometer(x, y, car)
+ local sprites = {}
+ for i=1, (car.speed_max_for_gauge / car.speedometer_interval) - 1 do
+  add(sprites, 1)
+ end
+ add(sprites, 2)
+ add(sprites, 2)
+ add(sprites, 2)
  return
-  create_gauge(x, y,
-   {1,1,1,1,1,1,1,1,1,2,2,2})
+  create_gauge(x, y, sprites)
 end
 
 function create_tachometer(x, y)
+ local sprites = {}
+ for i=1, (car.rpm_max_for_gauge / 1000) - 1  do
+  add(sprites, 17)
+ end
+ add(sprites, 18)
+ add(sprites, 18)
+ add(sprites, 18)
  return
-  create_gauge(x, y,
-   {17,17,17,17,18,18,18})
+  create_gauge(x, y, sprites)
 end
 
-function create_gearbox(x, y)
+function create_gearbox(x, y, car)
  local gearbox = {}
  -- the center of the gearbox
  gearbox.x = x
  gearbox.y = y
 
  gearbox.back = {}
- gearbox.back.sprites = {
-  5,6,7,21,22,23,37,38,39}
+ if car.gears_data[6] then
+  gearbox.back.sprites = {
+   {5,6,7,20},
+   {21,22,22,24},
+   {37,38,39,40}}
+ else
+  gearbox.back.sprites = {
+   {5,6,7},
+   {21,22,23},
+   {37,38,40}}
+ end
 
  gearbox.handle = {}
  gearbox.handle.x = gearbox.x
@@ -85,6 +106,7 @@ function create_gearbox(x, y)
  gearbox.handle.sprite = 9
 
  gearbox.gears = {}
+ 
  gearbox.gears.zero_middle =
   {0,0}
  gearbox.gears.zero_left =
@@ -96,7 +118,14 @@ function create_gearbox(x, y)
  gearbox.gears.three = {0,-1}
  gearbox.gears.four = {0,1}
  gearbox.gears.five = {1,-1}
- gearbox.gears.reverse = {1,1}
+ if car.gears_data[6] then
+  gearbox.gears.six = {1,1}
+  gearbox.gears.zero_right_right =
+   {2,0}
+  gearbox.gears.reverse = {2,1}
+ else
+  gearbox.gears.reverse = {1,1}
+ end
 
  gearbox.current_gear =
   gearbox.gears.zero_middle
@@ -105,10 +134,10 @@ end
 
 function gauges_update(ui, car)
  -- speedometer
- -- 1 tile = 20 km
+ -- 1 tile = gauge_interval
  -- 1 tile = 8 px
  -- 1 px = 20 km / 8 px
- local px = 20 / 8
+ local px = car.speedometer_interval / 8
  local pos = flr(
   ui.speedometer.x + (
   car.current_speed / px))
@@ -130,9 +159,9 @@ end
 -->8
 -- drawing functions
 
-function draw_ui(ui)
+function draw_ui(ui, car)
  draw_gauges()
- draw_gearbox()
+ draw_gearbox(car)
 end
 
 function draw_gauges()
@@ -168,34 +197,20 @@ function draw_gauges()
   10)
 end
 
-function draw_gearbox()
- spr(ui.gearbox.back.sprites[1],
-  ui.gearbox.x-8,
-  ui.gearbox.y-8)
- spr(ui.gearbox.back.sprites[2],
-  ui.gearbox.x,
-  ui.gearbox.y-8)
- spr(ui.gearbox.back.sprites[3],
-  ui.gearbox.x+8,
-  ui.gearbox.y-8)
- spr(ui.gearbox.back.sprites[4],
-  ui.gearbox.x-8,
-  ui.gearbox.y)
- spr(ui.gearbox.back.sprites[5],
-  ui.gearbox.x,
-  ui.gearbox.y)
- spr(ui.gearbox.back.sprites[6],
-  ui.gearbox.x+8,
-  ui.gearbox.y)
- spr(ui.gearbox.back.sprites[7],
-  ui.gearbox.x-8,
-  ui.gearbox.y+8)
- spr(ui.gearbox.back.sprites[8],
-  ui.gearbox.x,
-  ui.gearbox.y+8)
- spr(ui.gearbox.back.sprites[9],
-  ui.gearbox.x+8,
-  ui.gearbox.y+8)
+function draw_gearbox(car)
+ local offx = -8
+ local offy = -8
+ 
+ for k, v in pairs(ui.gearbox.back.sprites) do
+  for k2, v2 in pairs(v) do
+   spr(v2, ui.gearbox.x + offx,
+    ui.gearbox.y + offy)
+   offx += 8
+  end
+  offx = -8
+  offy += 8
+ end
+
  spr(ui.gearbox.handle.sprite,
   ui.gearbox.handle.x,
   ui.gearbox.handle.y)
@@ -223,6 +238,9 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.zero_right then
    ngear = ui.gearbox.gears.zero_middle
+  elseif (car.gears_data[6] and
+   ui.gearbox.gears.zero_right_right) then
+   ngear = ui.gearbox.gears.zero_right
   end
  elseif btnp(1) then
   dir = {1,0}
@@ -232,6 +250,10 @@ function handle_keys()
   elseif cgear ==
    ui.gearbox.gears.zero_middle then
    ngear = ui.gearbox.gears.zero_right
+  elseif (cgear ==
+   ui.gearbox.gears.zero_right and
+   car.gears_data[6]) then
+   ngear = ui.gearbox.gears.zero_right_right
   end 
  elseif btnp(2) then
   dir = {0,-1}
@@ -257,9 +279,21 @@ function handle_keys()
    ui.gearbox.gears.zero_right then
    ngear = ui.gearbox.gears.five
    car.current_gear = 5
-  elseif cgear ==
-   ui.gearbox.gears.reverse then
+  elseif (cgear ==
+   ui.gearbox.gears.reverse and
+   not car.gears_data[6]) then
    ngear = ui.gearbox.gears.zero_right
+   car.current_gear = 0
+  elseif (cgear ==
+   ui.gearbox.gears.six and
+   car.gears_data[6]) then
+   ngear = ui.gearbox.gears.zero_right
+   car.previous_gear = 6
+   car.current_gear = 0
+  elseif (cgear ==
+   ui.gearbox.gears.reverse and
+   car.gears_data[6]) then
+   ngear = ui.gearbox.gears.zero_right_right
    car.current_gear = 0
   end
  elseif btnp(3) then
@@ -287,8 +321,19 @@ function handle_keys()
    ngear = ui.gearbox.gears.zero_right
    car.previous_gear = 5
    car.current_gear = 0
-  elseif cgear ==
-   ui.gearbox.gears.zero_right then
+  elseif (cgear ==
+   ui.gearbox.gears.zero_right and
+   not car.gears_data[6]) then
+   ngear = ui.gearbox.gears.reverse
+   car.current_gear = 0
+  elseif (cgear ==
+   ui.gearbox.gears.zero_right and
+   car.gears_data[6]) then
+   ngear = ui.gearbox.gears.six
+   car.current_gear = 6
+  elseif (cgear ==
+   ui.gearbox.gears.zero_right_right and
+   car.gears_data[6]) then
    ngear = ui.gearbox.gears.reverse
    car.current_gear = 0
   end
@@ -306,7 +351,7 @@ end
 -- cars and related math
 
 function make_car()
- return make_honda()
+ return make_abarth()
 end
 
 function make_honda()
@@ -316,8 +361,11 @@ function make_honda()
  car.variant = "type r"
  car.engine = "2.0 vtec"
  car.year = 2020
+ car.speedometer_interval = 30
  car.horsepower = 320
  car.rpm_max = 6500
+ car.rpm_max_for_gauge = 6000
+ car.speed_max_for_gauge = 260
  car.final_drive_ratio = 4.11
  car.wheel_ratio = 0.34
  -- {nm, rpm}
@@ -361,7 +409,10 @@ function make_honda()
    car.gear_four_dropdown},
   {car.gear_five_vmax,
    car.gear_five_time,
-   car.gear_five_dropdown}}
+   car.gear_five_dropdown},
+  {car.gear_six_vmax,
+   car.gear_six_time,
+   car.gear_six_dropdown}}
  car.current_gear = 0
  car.previous_gear = 0
  car.current_rpm = 0
@@ -376,8 +427,11 @@ function make_abarth()
  car.variant = ""
  car.engine = "1.4 t-jet"
  car.year = 2017
+ car.speedometer_interval = 20
  car.horsepower = 160
  car.rpm_max = 5500
+ car.rpm_max_for_gauge = 5000
+ car.speed_max_for_gauge = 200
  car.final_drive_ratio = 3.36
  car.wheel_ratio = 0.30
  -- {nm, rpm}
@@ -463,7 +517,7 @@ function car_calc_dropdown(car)
   elseif car.current_gear == 3 then
    car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown)
   elseif car.current_gear == 4 then
-   car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown + car_gear_four_dropdown)
+   car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown + car.gear_four_dropdown)
   elseif car.current_gear == 5 then
    car.current_rpm -= (car.gear_two_dropdown + car.gear_three_dropdown + car.gear_four_dropdown + car.gear_five_dropdown) 
   end
@@ -528,22 +582,22 @@ __gfx__
 007007006666666666666668000000000000000055500555555005555550055500000000011dd110000000000000000000000000000000000000000000000000
 000000006666666d6666666800000000000000005550055555500555555005550000000000111100000000000000000000000000000000000000000000000000
 000000006666666d6666666800000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000ffffffffffffffff00000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000ffffffffffffffff00000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000ffffffffffffffff00000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000ffffffffffffffff00000000000000005550000000000000000005550000000000000000000000000000000000000000000000000000000000000000
-00000000ffffffffffffffff00000000000000005550000000000000000005550000000000000000000000000000000000000000000000000000000000000000
-00000000fffffffffffffff800000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000fffffff4fffffff800000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000fffffff4fffffff800000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000005550055555500555555005550000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000005566655555656555556665550000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000005555655555656555556565550000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000005566655555666555556655550000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000005565555555556555556565550000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000005566655555556555556565550000000000000000000000000000000000000000000000000000000000000000
+00000000ffffffffffffffff00000000555555555550055555500555555005555555555500000000000000000000000000000000000000000000000000000000
+00000000ffffffffffffffff00000000555555555550055555500555555005555555555500000000000000000000000000000000000000000000000000000000
+00000000ffffffffffffffff00000000555555555550055555500555555005555555555500000000000000000000000000000000000000000000000000000000
+00000000ffffffffffffffff00000000555555555550000000000000000005550000055500000000000000000000000000000000000000000000000000000000
+00000000ffffffffffffffff00000000555555555550000000000000000005550000055500000000000000000000000000000000000000000000000000000000
+00000000fffffffffffffff800000000555555555550055555500555555005555550055500000000000000000000000000000000000000000000000000000000
+00000000fffffff4fffffff800000000555555555550055555500555555005555550055500000000000000000000000000000000000000000000000000000000
+00000000fffffff4fffffff800000000555555555550055555500555555005555550055500000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000005550055555500555555005555550055500000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000005550055555500555555005555550055500000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000005550055555500555555005555550055500000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000005566655555656555556665555566655500000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000005555655555656555556555555565655500000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000005566655555666555556665555566555500000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000005565555555556555556565555565655500000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000005566655555556555556665555565655500000000000000000000000000000000000000000000000000000000
 __map__
 1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 1b1b1a1a1a1a1a1a1a1a1a1a1a1a1b1b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
