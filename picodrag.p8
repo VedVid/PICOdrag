@@ -7,9 +7,7 @@ function _init()
  pi = 3.14
  fps = 30
  track = make_track()
- player = make_player()
- player.x = track.x
- player.y = track.y
+ player = make_player(track)
  car = make_car()
  ui = create_ui(car)
 end
@@ -373,8 +371,10 @@ end
 -->8
 -- player and cars
 
-function make_player()
+function make_player(track)
  local player = {}
+ player.x = track.x
+ player.y = track.y
  player.sprite = 48
  return player
 end
@@ -606,6 +606,9 @@ end
 -- tracks
 
 function make_track()
+ --1 px = 100 m
+ --1 kmph = 0.28 mps
+ --100 mps = 360 kmph
  local track = {}
  track.x = 0
  track.y = 48
