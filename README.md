@@ -26,9 +26,7 @@ Project is public, released under FreeBSD license.
 
 #### How IdleRPG looks like?
 
-![PICOdrag - just before starting the race](screenshots/PICOdrag%20-%20just%20before%20starting%20the%20race.png)
-
-![PICOdrag - accelerating](screenshots/PICOdrag%20-%20accelerating.png)
+![PICOdrag - high speed on finish](screenshots/PICOdrag%20-%20high%20speed%20on%20finish.png)
 
 
 
