@@ -400,9 +400,15 @@ function player_update(player, car, track)
   if player.x_dec >= 10 then
    player.x += 1
    player.x_dec -= 10
+   if player.x % 8 == 0 then
+    player.cell += 1
+   end
   elseif player.y_dec >= 10 then
    player.y += 1
    player.y_dec -= 10
+   if player.y % 8 == 0 then
+    player.cell += 1
+   end
   else
    cont = false
   end
