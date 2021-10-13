@@ -379,6 +379,7 @@ function make_player(track)
  player.y = track.start_y
  player.y_dec = 0
  player.sprite = 48
+ player.cell = track.cells[1]
  return player
 end
 
