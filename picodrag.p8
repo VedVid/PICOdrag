@@ -36,7 +36,7 @@ function _draw()
   print("no rpm and speed info")
  end
  if (player) then
-  print("player "..player.x..","..player.x_dec.." "..player.y..","..player.y_dec.." "..player.sprite)
+  print("player "..player.x.." "..player.y.." "..player.cell.." "..player.sprite)
  else
   print("no player found")
  end
