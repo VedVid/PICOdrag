@@ -394,43 +394,37 @@ function player_update(player, car, track)
   player.cell = 1
   cell = track.cells[player.cell][3]
  end
+ local ncell = nil
+ if track.cells[player.cell+1] then
+  ncell = track.cells[player.cell+1][3]
+ else
+  ncell = track.cells[1][3]
+ end
  if cell == 10 or
   cell == 42 then
-  player.sprite = 48
   move_x = car.current_speed * km_ratio 
  elseif cell == 26 then
-  player.sprite = 52
   move_x = (-1) * car.current_speed * km_ratio 
  elseif cell == 11 or
   cell == 43 then
-  player.sprite = 54
   move_y = car.current_speed * km_ratio
  elseif cell == 27 then
-  player.sprite = 50
   move_y = (-1) * car.current_speed * km_ratio
  elseif cell == 12 then
-  player.sprite = 49
   move_x = car.current_speed * km_ratio
  elseif cell == 13 then
-  player.sprite = 55
   move_y = car.current_speed * km_ratio
  elseif cell == 29 then
-  player.sprite = 53
   move_x = (-1) * car.current_speed * km_ratio
  elseif cell == 28 then
-  player.sprite = 51
   move_y = (-1) * car.current_speed * km_ratio
  elseif cell == 14 then
-  player.sprite = 53
   move_y = car.current_speed * km_ratio
  elseif cell == 30 then
-  player.sprite = 55
   move_x = car.current_speed * km_ratio
  elseif cell == 31 then
-  player.sprite = 49
   move_y = (-1) * car.current_speed * km_ratio
  elseif cell == 15 then
-  player.sprite = 51
   move_x = (-1) * car.current_speed * km_ratio
  end
  player.x_dec += move_x
@@ -468,6 +462,33 @@ function player_update(player, car, track)
   else
    cont = false
   end
+ end
+ if ncell == 10 or
+  ncell == 42 then
+  player.sprite = 48
+ elseif ncell == 26 then
+  player.sprite = 52
+ elseif ncell == 11 or
+  ncell == 43 then
+  player.sprite = 54
+ elseif ncell == 27 then
+  player.sprite = 50
+ elseif ncell == 12 then
+  player.sprite = 49
+ elseif ncell == 13 then
+  player.sprite = 55
+ elseif ncell == 29 then
+  player.sprite = 53
+ elseif ncell == 28 then
+  player.sprite = 51
+ elseif ncell == 14 then
+  player.sprite = 53
+ elseif ncell == 30 then
+  player.sprite = 55
+ elseif ncell == 31 then
+  player.sprite = 49
+ elseif ncell == 15 then
+  player.sprite = 51
  end
 end
 
