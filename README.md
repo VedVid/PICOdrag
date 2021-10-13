@@ -6,14 +6,14 @@ PICOdrag is simplistic racing game, inspired by classic Drag Racer. Player will 
 
 #### What is current development status of PICOdrag?
 
-Game is in the early stage of development. There is a lot of missing content.
+Game is in the early stage of development. There is a lot of missing content yet.
 
 Roadmap:
 
 - [x] basic car physics (speed, torque, acceleration)
 - [x] gear shifting
 - [ ] clutch
-- [ ] tracks
+- [x] tracks
 - [ ] high scores
 - [ ] opponents
 - [ ] ...more...
