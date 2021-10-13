@@ -376,83 +376,13 @@ end
 function make_player(track)
  local player = {}
  player.x = track.start_x
- player.x_dec = 0
  player.y = track.start_y
- player.y_dec = 0
  player.sprite = 48
  player.cell = 1
  return player
 end
 
 function player_update(player, car, track)
- local move_x = 0
- local move_y = 0
- local cell = nil
- if track.cells[player.cell] then
-  cell = track.cells[player.cell][3]
- else
-  player.cell = 1
-  cell = track.cells[player.cell][3]
- end
- if cell == 10 or
-  cell == 42 then
-  move_x = car.current_speed * km_ratio 
- elseif cell == 26 then
-  move_x = (-1) * car.current_speed * km_ratio 
- elseif cell == 11 or
-  cell == 43 then
-  move_y = car.current_speed * km_ratio
- elseif cell == 27 then
-  move_y = (-1) * car.current_speed * km_ratio
- elseif cell == 12 then
-  move_x = car.current_speed * km_ratio
- elseif cell == 13 then
-  move_y = car.current_speed * km_ratio
- elseif cell == 29 then
-  move_x = (-1) * car.current_speed * km_ratio
- elseif cell == 28 then
-  move_y = (-1) * car.current_speed * km_ratio
- elseif cell == 14 then
-  move_y = car.current_speed * km_ratio
- elseif cell == 30 then
-  move_x = car.current_speed * km_ratio
- elseif cell == 31 then
-  move_y = (-1) * car.current_speed * km_ratio
- elseif cell == 15 then
-  move_x = (-1) * car.current_speed * km_ratio
- end
- player.x_dec += move_x
- player.y_dec += move_y
- local cont = true
- while cont do
-  if player.x_dec >= 10 then
-   player.x += 1
-   player.x_dec -= 10
-   if player.x % 8 == 0 then
-    player.cell += 1
-   end
-  elseif player.x_dec <= -10 then
-   player.x -= 1
-   player.x_dec += 10
-   if player.x % 8 == 0 then
-    player.cell += 1
-   end
-  elseif player.y_dec >= 10 then
-   player.y += 1
-   player.y_dec -= 10
-   if player.y % 8 == 0 then
-    player.cell += 1
-   end
-  elseif player.y_dec <= -10 then
-   player.y -= 1
-   player.y_dec += 10
-   if player.y % 8 == 0 then
-    player.cell += 1
-   end
-  else
-   cont = false
-  end
- end
 end
 
 function make_car()
