@@ -6,7 +6,7 @@ __lua__
 function _init()
  pi = 3.14
  fps = 30
- km_ratio = 0.1
+ km_ratio = 0.01
  track = make_track()
  player = make_player(track)
  car = make_car()
@@ -391,7 +391,7 @@ function player_update(player, car, track)
   player.cell = 1
   return
  end
- car.game_speed = car.current_speed * 0.1
+ car.game_speed = car.current_speed * km_ratio
  if ncell[1] == player.x and
   ncell[2] == player.y then
   player.cell += 1
