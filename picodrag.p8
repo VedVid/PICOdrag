@@ -388,12 +388,30 @@ function player_update(player, car, track)
  local move_x = 0
  local move_y = 0
  local cell = track.cells[player.cell][3]
- if cell == 10 or cell == 26 then
+ if cell == 10 or
+  cell == 26 or
+  cell == 42 then
   move_x = car.current_speed * km_ratio
- elseif cell == 11 or cell == 27 then
+ elseif cell == 11 or
+  cell == 27 or
+  cell == 43 then
   move_y = car.current_speed * km_ratio
+ elseif cell == 12 then
+  move_x = car.current_speed * km_ratio
  elseif cell == 13 then
   move_y = car.current_speed * km_ratio
+ elseif cell == 29 then
+  move_x = car.current_speed * km_ratio
+ elseif cell == 28 then
+  move_y = car.current_speed * km_ratio
+ elseif cell == 14 then
+  move_y = car.current_speed * km_ratio
+ elseif cell == 30 then
+  move_x = car.current_speed * km_ratio
+ elseif cell == 31 then
+  move_y = car.current_speed * km_ratio
+ elseif cell == 15 then
+  move_x = car.current_speed * km_ratio
  end
  player.x_dec += move_x
  player.y_dec += move_y
