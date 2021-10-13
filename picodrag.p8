@@ -6,6 +6,7 @@ __lua__
 function _init()
  pi = 3.14
  fps = 30
+ km_ratio = 0.1
  track = make_track()
  player = make_player(track)
  car = make_car()
@@ -384,8 +385,10 @@ function make_player(track)
 end
 
 function player_update(player, car)
- local move_x = car.current_speed * 0.1
+ local move_x = 0 * km_ratio
+ local move_y = 0 * km_ratio
  player.x_dec += move_x
+ player.y_dec += move_y
  local cont = true
  while cont do
   if player.x_dec >= 10 then
