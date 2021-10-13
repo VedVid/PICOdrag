@@ -14,6 +14,7 @@ end
 
 function _update()
  handle_keys()
+ player_update(player, car)
  car_update(car)
  gauges_update(ui, car)
 end
@@ -374,9 +375,25 @@ end
 function make_player(track)
  local player = {}
  player.x = track.x
+ player.x_dec = 0
  player.y = track.y
+ player.y_dec = 0
  player.sprite = 48
  return player
+end
+
+function player_update(player, car)
+ local move_x = car.current_speed * 0.01
+ player.x_dec += move_x
+ local cont = true
+ while cont do
+  if player.x_dec >= 10 then
+   player.x += 1
+   player.x_dec -= 10
+  else
+   cont = false
+  end
+ end
 end
 
 function make_car()
