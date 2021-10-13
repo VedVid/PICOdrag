@@ -15,7 +15,7 @@ end
 
 function _update()
  handle_keys()
- player_update(player, car)
+ player_update(player, car, track)
  car_update(car)
  gauges_update(ui, car)
 end
@@ -380,13 +380,19 @@ function make_player(track)
  player.y = track.start_y
  player.y_dec = 0
  player.sprite = 48
- player.cell = track.cells[1]
+ player.cell = 1
  return player
 end
 
-function player_update(player, car)
- local move_x = 0 * km_ratio
- local move_y = 0 * km_ratio
+function player_update(player, car, track)
+ local move_x = 0
+ local move_y = 0
+ local cell = track.cells[player.cell][3]
+ if cell == 10 or cell == 26 then
+  move_x = car.current_speed * km_ratio
+ elseif vrll == 11 or cell == 27 then
+  move_x = car.current_speed * km_ratio
+ end
  player.x_dec += move_x
  player.y_dec += move_y
  local cont = true
@@ -394,6 +400,9 @@ function player_update(player, car)
   if player.x_dec >= 10 then
    player.x += 1
    player.x_dec -= 10
+  elseif player.y_dec >= 10 then
+   player.y += 1
+   player.y_dec -= 10
   else
    cont = false
   end
