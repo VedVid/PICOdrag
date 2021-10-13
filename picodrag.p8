@@ -391,20 +391,35 @@ function player_update(player, car, track)
   player.cell = 1
   return
  end
+ car.game_speed = car.current_speed * 0.1
  if ncell[1] == player.x and
   ncell[2] == player.y then
   player.cell += 1
  elseif ncell[1] > player.x then
   dir = {1, 0}
+  player.x += car.game_speed
+  if player.x > ncell[1] then
+   player.x = ncell[1]
+  end
  elseif ncell[1] < player.x then
   dir = {-1, 0}
+  player.x -= car.game_speed
+  if player.x < ncell[1] then
+   player.x = ncell[1]
+  end
  elseif ncell[2] > player.y then
   dir = {0, 1}
+  player.y += car.game_speed
+  if player.y > ncell[2] then
+   player.y = ncell[2]
+  end
  elseif ncell[2] < player.y then
   dir = {0, -1}
+  player.y -= car.game_speed
+  if player.y < ncell[2] then
+   player.y = ncell[2]
+  end
  end
- player.x += dir[1]
- player.y += dir[2]
  return {dir, ncell}
 end
 
@@ -475,6 +490,7 @@ function make_honda()
  car.previous_gear = 0
  car.current_rpm = 0
  car.current_speed = 0
+ car.game_speed = 0
  return car
 end
 
@@ -534,6 +550,7 @@ function make_abarth()
  car.previous_gear = 0
  car.current_rpm = 0
  car.current_speed = 0
+ car.game_speed = 0
  return car
 end
 
