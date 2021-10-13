@@ -390,7 +390,7 @@ function player_update(player, car, track)
  local cell = track.cells[player.cell][3]
  if cell == 10 or cell == 26 then
   move_x = car.current_speed * km_ratio
- elseif vrll == 11 or cell == 27 then
+ elseif cell == 11 or cell == 27 then
   move_x = car.current_speed * km_ratio
  end
  player.x_dec += move_x
