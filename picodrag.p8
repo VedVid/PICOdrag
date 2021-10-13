@@ -6,7 +6,10 @@ __lua__
 function _init()
  pi = 3.14
  fps = 30
+ track = make_track()
  player = make_player()
+ player.x = track.x
+ player.y = track.y
  car = make_car()
  ui = create_ui(car)
 end
@@ -20,6 +23,7 @@ end
 function _draw()
  cls()
  draw_ui(ui, car)
+ draw_track(track)
  draw_player(player)
  if ui.gearbox.current_gear then
   print(ui.gearbox.current_gear[1]..":"..ui.gearbox.current_gear[2])
@@ -173,6 +177,14 @@ end
 function draw_ui(ui, car)
  draw_gauges()
  draw_gearbox(car)
+end
+
+function draw_track(track)
+ local xoff = 0
+ for k, v in pairs(track.cells) do
+  spr(v, track.x+xoff, track.y)
+  xoff += 8
+ end
 end
 
 function draw_gauges()
@@ -359,12 +371,10 @@ function handle_keys()
 end
 
 -->8
--- cars and related math
+-- player and cars
 
 function make_player()
  local player = {}
- player.x = 16
- player.y = 48
  player.sprite = 48
  return player
 end
@@ -592,6 +602,25 @@ end
 -- formula: v = (3.6 * rpm * pi * wheel_ratio) /
 --              (30 * gear_ratio * final_ratio)
 
+-->8
+-- tracks
+
+function make_track()
+ local track = {}
+ track.x = 0
+ track.y = 48
+ track.cells = {}
+ add(track.cells, 11)
+ add(track.cells, 11)
+ add(track.cells, 11)
+ add(track.cells, 11)
+ add(track.cells, 11)
+ add(track.cells, 11)
+ add(track.cells, 11)
+ add(track.cells, 11)
+ add(track.cells, 11)
+ return track
+end
 __gfx__
 00000000666666666666666600000000555555555566555555666555556665550000000000000000000000008888888800000000000000000000000000000000
 00000000666666666666666600000000555555555556555555556555556555550000000000111100000000006666666600000000000000000000000000000000
