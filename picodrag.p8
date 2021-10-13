@@ -181,9 +181,7 @@ end
 
 function draw_track(track)
  for k, v in pairs(track.cells) do
-  spr(v[3],
-  track.x+(v[1]*8),
-  track.y+(v[2]*8))
+  spr(v[3], v[1], v[2])
  end
 end
 
@@ -375,8 +373,8 @@ end
 
 function make_player(track)
  local player = {}
- player.x = track.start_x
- player.y = track.start_y
+ player.x = track.cells[1][1]
+ player.y = track.cells[1][2]
  player.sprite = 48
  player.cell = 1
  return player
@@ -389,11 +387,20 @@ function player_update(player, car, track)
   player.cell = 1
   ncell = track.cells[player.cell]
  end
- player.x =
-  track.x + (ncell[1] * 8)
- player.y =
-  track.y + (ncell[2] * 8)
- player.cell += 1
+ if ncell[1] > player.x then
+  player.x += 1
+ elseif ncell[1] < player.x then
+  player.x -= 1
+ end
+ if ncell[2] > player.y then
+  player.y += 1
+ elseif ncell[2] < player.y then
+  player.y -= 1
+ end
+	if ncell[1] == player.x and
+	 ncell[2] == player.y then
+	 player.cell += 1
+	end
 end
 
 function make_car()
@@ -676,10 +683,10 @@ function make_track()
  add(track.cells, {3,7,31})
  add(track.cells, {3,6,27})
  add(track.cells, {3,5,12})
- track.start_x = 
-  track.x+(8*track.cells[1][1])
- track.start_y =
-  track.y+(8*track.cells[1][2])
+ for k, v in pairs(track.cells) do
+  v[1] = track.x + (8 * v[1])
+  v[2] = track.y + (8 * v[2])
+ end
  return track
 end
 __gfx__
