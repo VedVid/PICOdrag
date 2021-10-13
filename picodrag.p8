@@ -181,9 +181,7 @@ end
 
 function draw_track(track)
  for k, v in pairs(track.cells) do
-  spr(v[3],
-  track.x+(v[1]*8),
-  track.y+(v[2]*8))
+  spr(v[3], v[1], v[2])
  end
 end
 
@@ -389,36 +387,36 @@ function player_update(player, car, track)
  local move_y = 0
  local cell = nil
  if track.cells[player.cell] then
-  cell = track.cells[player.cell][3]
+  cell = track.cells[player.cell]
  else
   player.cell = 1
-  cell = track.cells[player.cell][3]
+  cell = track.cells[player.cell]
  end
- if cell == 10 or
-  cell == 42 then
+ if cell[3] == 10 or
+  cell[3] == 42 then
   move_x = car.current_speed * km_ratio 
- elseif cell == 26 then
+ elseif cell[3] == 26 then
   move_x = (-1) * car.current_speed * km_ratio 
- elseif cell == 11 or
-  cell == 43 then
+ elseif cell[3] == 11 or
+  cell[3] == 43 then
   move_y = car.current_speed * km_ratio
- elseif cell == 27 then
+ elseif cell[3] == 27 then
   move_y = (-1) * car.current_speed * km_ratio
- elseif cell == 12 then
+ elseif cell[3] == 12 then
   move_x = car.current_speed * km_ratio
- elseif cell == 13 then
+ elseif cell[3] == 13 then
   move_y = car.current_speed * km_ratio
- elseif cell == 29 then
+ elseif cell[3] == 29 then
   move_x = (-1) * car.current_speed * km_ratio
- elseif cell == 28 then
+ elseif cell[3] == 28 then
   move_y = (-1) * car.current_speed * km_ratio
- elseif cell == 14 then
+ elseif cell[3] == 14 then
   move_y = car.current_speed * km_ratio
- elseif cell == 30 then
+ elseif cell[3] == 30 then
   move_x = car.current_speed * km_ratio
- elseif cell == 31 then
+ elseif cell[3] == 31 then
   move_y = (-1) * car.current_speed * km_ratio
- elseif cell == 15 then
+ elseif cell[3] == 15 then
   move_x = (-1) * car.current_speed * km_ratio
  end
  player.x_dec += move_x
@@ -428,25 +426,29 @@ function player_update(player, car, track)
   if player.x_dec >= 10 then
    player.x += 1
    player.x_dec -= 10
-   if player.x % 8 == 0 then
+   if player.x >= cell[1] then
+    player.x = cell[1]
     player.cell += 1
    end
   elseif player.x_dec <= -10 then
    player.x -= 1
    player.x_dec += 10
-   if player.x % 8 == 0 then
+   if player.x <= cell[1] then
+    player.x = cell[1]
     player.cell += 1
    end
   elseif player.y_dec >= 10 then
    player.y += 1
    player.y_dec -= 10
-   if player.y % 8 == 0 then
+   if player.y >= cell[2] then
+    player.y = cell[2]
     player.cell += 1
    end
   elseif player.y_dec <= -10 then
    player.y -= 1
    player.y_dec += 10
-   if player.y % 8 == 0 then
+   if player.y <= cell[2] then
+    player.y = cell[2]
     player.cell += 1
    end
   else
@@ -735,10 +737,14 @@ function make_track()
  add(track.cells, {3,7,31})
  add(track.cells, {3,6,27})
  add(track.cells, {3,5,12})
+ for k, v in pairs(track.cells) do
+  v[1] = (v[1] * 8) + track.x
+  v[2] = (v[2] * 8) + track.y
+ end
  track.start_x = 
-  track.x+(8*track.cells[1][1])
+  track.cells[1][1]
  track.start_y =
-  track.y+(8*track.cells[1][2])
+  track.cells[1][2]
  return track
 end
 __gfx__
