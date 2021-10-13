@@ -4,4 +4,5 @@
 - [ ] RPM handling
   - [ ] Issue about shifting gears down. Current scheme works fine when there is high RPM (e.g. driving on "5" then shifting to "4" or "3"), but is broken if player will wait until the RPM goes down (e.g. driving on "5", then driving on "0", then shifting to "4" will result in RPM spike to ~2000 RPM). Maybe I should use percentages instead of fixed values for rpm dropdowns?
 - [ ] Something  is wrong with the gearbox. Player can switch gear directly from 3 to 1 (by pressing the left arrow) – probably something's wrong with this way too long conditional chain
+- [ ] There should be multiple opponents, every one would be just a small circle with number
 
