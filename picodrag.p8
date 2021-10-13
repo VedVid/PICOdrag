@@ -11,11 +11,12 @@ function _init()
  player = make_player(track)
  car = make_car()
  ui = create_ui(car)
+ d = {}
 end
 
 function _update()
  handle_keys()
- player_update(player, car, track)
+ d = player_update(player, car, track)
  car_update(car)
  gauges_update(ui, car)
 end
@@ -35,10 +36,13 @@ function _draw()
  else
   print("no rpm and speed info")
  end
- if (player) then
-  print("player "..player.x.." "..player.y.." "..player.cell.." "..player.sprite)
- else
-  print("no player found")
+-- if (player) then
+--  print("player "..player.x.." "..player.y.." "..player.cell.." "..player.sprite)
+-- else
+--  print("no player found")
+-- end
+ if (d) then
+  print(player.x.." "..player.y.." "..d[2][1].." "..d[2][2])
  end
 end
 
@@ -381,26 +385,27 @@ function make_player(track)
 end
 
 function player_update(player, car, track)
- local ccell = player.cell
+ local dir = {0, 0}
  local ncell = track.cells[player.cell]
  if not ncell then
   player.cell = 1
-  ncell = track.cells[player.cell]
+  return
  end
- if ncell[1] > player.x then
-  player.x += 1
+ if ncell[1] == player.x and
+  ncell[2] == player.y then
+  player.cell += 1
+ elseif ncell[1] > player.x then
+  dir = {1, 0}
  elseif ncell[1] < player.x then
-  player.x -= 1
- end
- if ncell[2] > player.y then
-  player.y += 1
+  dir = {-1, 0}
+ elseif ncell[2] > player.y then
+  dir = {0, 1}
  elseif ncell[2] < player.y then
-  player.y -= 1
+  dir = {0, -1}
  end
-	if ncell[1] == player.x and
-	 ncell[2] == player.y then
-	 player.cell += 1
-	end
+ player.x += dir[1]
+ player.y += dir[2]
+ return {dir, ncell}
 end
 
 function make_car()
