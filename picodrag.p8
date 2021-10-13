@@ -606,9 +606,6 @@ end
 -- tracks
 
 function make_track()
- --1 px = 100 m
- --1 kmph = 0.28 mps
- --100 mps = 360 kmph
  local track = {}
  track.x = 0
  track.y = 48
