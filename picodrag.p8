@@ -415,8 +415,6 @@ function player_update(player, car, track)
    cont = false
   end
  end
- -- \/ temporary for testing
- if player.x > 8*8 then player.x = 0 end
 end
 
 function make_car()
