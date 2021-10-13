@@ -6,17 +6,16 @@ __lua__
 function _init()
  pi = 3.14
  fps = 30
- km_ratio = 0.01
+ km_ratio = 0.1
  track = make_track()
  player = make_player(track)
  car = make_car()
  ui = create_ui(car)
- d = {}
 end
 
 function _update()
  handle_keys()
- d = player_update(player, car, track)
+ player_update(player, car, track)
  car_update(car)
  gauges_update(ui, car)
 end
@@ -36,13 +35,10 @@ function _draw()
  else
   print("no rpm and speed info")
  end
--- if (player) then
---  print("player "..player.x.." "..player.y.." "..player.cell.." "..player.sprite)
--- else
---  print("no player found")
--- end
- if (d) then
-  print(player.x.." "..player.y.." "..d[2][1].." "..d[2][2])
+ if (player) then
+  print("player "..player.x.." "..player.y.." "..player.cell.." "..player.sprite)
+ else
+  print("no player found")
  end
 end
 
@@ -185,7 +181,9 @@ end
 
 function draw_track(track)
  for k, v in pairs(track.cells) do
-  spr(v[3], v[1], v[2])
+  spr(v[3],
+  track.x+(v[1]*8),
+  track.y+(v[2]*8))
  end
 end
 
@@ -377,50 +375,88 @@ end
 
 function make_player(track)
  local player = {}
- player.x = track.cells[1][1]
- player.y = track.cells[1][2]
+ player.x = track.start_x
+ player.x_dec = 0
+ player.y = track.start_y
+ player.y_dec = 0
  player.sprite = 48
  player.cell = 1
  return player
 end
 
 function player_update(player, car, track)
- local dir = {0, 0}
- local ncell = track.cells[player.cell]
- if not ncell then
+ local move_x = 0
+ local move_y = 0
+ local cell = nil
+ if track.cells[player.cell] then
+  cell = track.cells[player.cell][3]
+ else
   player.cell = 1
-  return
+  cell = track.cells[player.cell][3]
  end
- car.game_speed = car.current_speed * km_ratio
- if ncell[1] == player.x and
-  ncell[2] == player.y then
-  player.cell += 1
- elseif ncell[1] > player.x then
-  dir = {1, 0}
-  player.x += car.game_speed
-  if player.x > ncell[1] then
-   player.x = ncell[1]
-  end
- elseif ncell[1] < player.x then
-  dir = {-1, 0}
-  player.x -= car.game_speed
-  if player.x < ncell[1] then
-   player.x = ncell[1]
-  end
- elseif ncell[2] > player.y then
-  dir = {0, 1}
-  player.y += car.game_speed
-  if player.y > ncell[2] then
-   player.y = ncell[2]
-  end
- elseif ncell[2] < player.y then
-  dir = {0, -1}
-  player.y -= car.game_speed
-  if player.y < ncell[2] then
-   player.y = ncell[2]
+ if cell == 10 or
+  cell == 42 then
+  move_x = car.current_speed * km_ratio 
+ elseif cell == 26 then
+  move_x = (-1) * car.current_speed * km_ratio 
+ elseif cell == 11 or
+  cell == 43 then
+  move_y = car.current_speed * km_ratio
+ elseif cell == 27 then
+  move_y = (-1) * car.current_speed * km_ratio
+ elseif cell == 12 then
+  move_x = car.current_speed * km_ratio
+ elseif cell == 13 then
+  move_y = car.current_speed * km_ratio
+ elseif cell == 29 then
+  move_x = (-1) * car.current_speed * km_ratio
+ elseif cell == 28 then
+  move_y = (-1) * car.current_speed * km_ratio
+ elseif cell == 14 then
+  move_y = car.current_speed * km_ratio
+ elseif cell == 30 then
+  move_x = car.current_speed * km_ratio
+ elseif cell == 31 then
+  move_y = (-1) * car.current_speed * km_ratio
+ elseif cell == 15 then
+  move_x = (-1) * car.current_speed * km_ratio
+ end
+ player.x_dec += move_x
+ player.y_dec += move_y
+ local cont = true
+ while cont do
+  if player.x_dec >= 10 then
+   player.x += 1
+   player.x_dec -= 10
+   if player.x % 8 == 0 then
+    player.cell += 1
+	player.x_dec = 0
+   end
+  elseif player.x_dec <= -10 then
+   player.x -= 1
+   player.x_dec += 10
+   if player.x % 8 == 0 then
+    player.cell += 1
+	player.x_dec = 0
+   end
+  elseif player.y_dec >= 10 then
+   player.y += 1
+   player.y_dec -= 10
+   if player.y % 8 == 0 then
+    player.cell += 1
+	player.y_dec = 0
+   end
+  elseif player.y_dec <= -10 then
+   player.y -= 1
+   player.y_dec += 10
+   if player.y % 8 == 0 then
+    player.cell += 1
+	player.y_dec = 0
+   end
+  else
+   cont = false
   end
  end
- return {dir, ncell}
 end
 
 function make_car()
@@ -490,7 +526,6 @@ function make_honda()
  car.previous_gear = 0
  car.current_rpm = 0
  car.current_speed = 0
- car.game_speed = 0
  return car
 end
 
@@ -550,7 +585,6 @@ function make_abarth()
  car.previous_gear = 0
  car.current_rpm = 0
  car.current_speed = 0
- car.game_speed = 0
  return car
 end
 
@@ -705,10 +739,10 @@ function make_track()
  add(track.cells, {3,7,31})
  add(track.cells, {3,6,27})
  add(track.cells, {3,5,12})
- for k, v in pairs(track.cells) do
-  v[1] = track.x + (8 * v[1])
-  v[2] = track.y + (8 * v[2])
- end
+ track.start_x = 
+  track.x+(8*track.cells[1][1])
+ track.start_y =
+  track.y+(8*track.cells[1][2])
  return track
 end
 __gfx__
