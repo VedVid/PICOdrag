@@ -396,29 +396,41 @@ function player_update(player, car, track)
  end
  if cell == 10 or
   cell == 42 then
+  player.sprite = 48
   move_x = car.current_speed * km_ratio 
  elseif cell == 26 then
+  player.sprite = 52
   move_x = (-1) * car.current_speed * km_ratio 
  elseif cell == 11 or
   cell == 43 then
+  player.sprite = 54
   move_y = car.current_speed * km_ratio
  elseif cell == 27 then
+  player.sprite = 50
   move_y = (-1) * car.current_speed * km_ratio
  elseif cell == 12 then
+  player.sprite = 49
   move_x = car.current_speed * km_ratio
  elseif cell == 13 then
+  player.sprite = 55
   move_y = car.current_speed * km_ratio
  elseif cell == 29 then
+  player.sprite = 53
   move_x = (-1) * car.current_speed * km_ratio
  elseif cell == 28 then
+  player.sprite = 51
   move_y = (-1) * car.current_speed * km_ratio
  elseif cell == 14 then
+  player.sprite = 53
   move_y = car.current_speed * km_ratio
  elseif cell == 30 then
+  player.sprite = 55
   move_x = car.current_speed * km_ratio
  elseif cell == 31 then
+  player.sprite = 49
   move_y = (-1) * car.current_speed * km_ratio
  elseif cell == 15 then
+  player.sprite = 51
   move_x = (-1) * car.current_speed * km_ratio
  end
  player.x_dec += move_x
