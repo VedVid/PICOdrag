@@ -383,6 +383,17 @@ function make_player(track)
 end
 
 function player_update(player, car, track)
+ local ccell = player.cell
+ local ncell = track.cells[player.cell]
+ if not ncell then
+  player.cell = 1
+  ncell = track.cells[player.cell]
+ end
+ player.x =
+  track.x + (ncell[1] * 8)
+ player.y =
+  track.y + (ncell[2] * 8)
+ player.cell += 1
 end
 
 function make_car()
