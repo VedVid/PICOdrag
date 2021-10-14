@@ -262,7 +262,7 @@ function handle_keys()
    ui.gearbox.gears.zero_right then
    ngear = ui.gearbox.gears.zero_middle
   elseif (car.gears_data[6] and
-   ui.gearbox.gears.zero_right_right) then
+   cgear == ui.gearbox.gears.zero_right_right) then
    ngear = ui.gearbox.gears.zero_right
   end
  elseif btnp(1) then
