@@ -507,7 +507,7 @@ function make_porsche()
  car.speedometer_interval = 30
  car.horsepower = 420
  car.rpm_max = 8000
- car.rpm_max_for_gauge = 10000
+ car.rpm_max_for_gauge = 8000
  car.speed_max_for_gauge = 320
  car.final_drive_ratio = 4.04
  car.wheel_ratio = 0.33
