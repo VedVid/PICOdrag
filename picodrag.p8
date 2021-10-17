@@ -52,7 +52,7 @@ function create_ui(car)
  ui.tachometer =
   create_tachometer(0, 104)
  ui.gearbox =
-  create_gearbox(80, 108, car)
+  create_gearbox(90, 108, car)
  return ui
 end
 
@@ -493,7 +493,87 @@ function player_update(player, car, track)
 end
 
 function make_car()
- return make_honda()
+ return make_porsche()
+end
+
+function make_porsche()
+ local car = {}
+ car.brand = "porsche"
+ car.model = "718 s boxster gt4"
+ car.variant = "generation 982"
+ car.engine = "2.5 h4"
+ car.class = "supercar"
+ car.year = 2020
+ car.speedometer_interval = 30
+ car.horsepower = 420
+ car.rpm_max = 8000
+ car.rpm_max_for_gauge = 8000
+ car.speed_max_for_gauge = 320
+ car.final_drive_ratio = 4.04
+ car.wheel_ratio = 0.33
+ -- {nm, rpm}
+ car.torque_max = {420, 5900}
+ car.gear_one_ratio = 3.31
+ car.gear_one_vmax = 74
+ car.gear_one_time = 4.55
+ car.gear_one_dropdown = 3000
+ -- dropdown ratio is % of dropdown of rpm_max
+ car.gear_one_dropdown_ratio =
+  0.38
+ car.gear_two_ratio = 1.95
+ car.gear_two_vmax = 126
+ car.gear_two_time = 8.26
+ car.gear_two_dropdown = 2000
+ car.gear_two_dropdown_ratio =
+  0.25
+ car.gear_three_ratio = 1.41
+ car.gear_three_vmax = 174
+ car.gear_three_time = 11.96
+ car.gear_three_dropdown = 2000
+ car.gear_three_dropdown_ratio =
+  0.25
+ car.gear_four_ratio = 1.13
+ car.gear_four_vmax = 218
+ car.gear_four_time = 19.38
+ car.gear_four_dropdown = 1500
+ car.gear_four_dropdown_ratio =
+  0.19
+ car.gear_five_ratio = 0.95
+ car.gear_five_vmax = 259
+ car.gear_five_time = 36.48
+ car.gear_five_dropdown = 1300
+ car.gear_five_dropdown_ratio =
+  0.16
+ car.gear_six_ratio = 0.81
+ car.gear_six_vmax = 304
+ car.gear_six_time = 85.2
+ car.gear_six_dropdown = 1200
+ car.gear_six_dropdown_ratio =
+  0.15
+ car.gears_data = {
+  {car.gear_one_vmax,
+   car.gear_one_time,
+   car.gear_one_dropdown},
+  {car.gear_two_vmax,
+   car.gear_two_time,
+   car.gear_two_dropdown},
+  {car.gear_three_vmax,
+   car.gear_three_time,
+   car.gear_three_dropdown},
+  {car.gear_four_vmax,
+   car.gear_four_time,
+   car.gear_four_dropdown},
+  {car.gear_five_vmax,
+   car.gear_five_time,
+   car.gear_five_dropdown},
+  {car.gear_six_vmax,
+   car.gear_six_time,
+   car.gear_six_dropdown}}
+ car.current_gear = 0
+ car.previous_gear = 0
+ car.current_rpm = 0
+ car.current_speed = 0
+ return car
 end
 
 function make_honda()
