@@ -52,7 +52,7 @@ function create_ui(car)
  ui.tachometer =
   create_tachometer(0, 104)
  ui.gearbox =
-  create_gearbox(80, 108, car)
+  create_gearbox(90, 108, car)
  return ui
 end
 
