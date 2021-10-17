@@ -516,26 +516,39 @@ function make_honda()
  car.gear_one_vmax = 56
  car.gear_one_time = 2.2
  car.gear_one_dropdown = 1000
+ -- dropdown ratio is % of dropdown of rpm_max
+ car.gear_one_dropdown_ratio =
+  0.15
  car.gear_two_ratio = 2.12
  car.gear_two_vmax = 96
  car.gear_two_time = 4.4
- car.gear_two_dropdown = 2300 
+ car.gear_two_dropdown = 2300
+ car.gear_two_dropdown_ratio =
+  0.35
  car.gear_three_ratio = 1.53
  car.gear_three_vmax = 132
  car.gear_three_time = 7.4
  car.gear_three_dropdown = 1600
+ car.gear_three_dropdown_ratio =
+  0.25
  car.gear_four_ratio = 1.13
  car.gear_four_vmax = 179
  car.gear_four_time = 14.2
  car.gear_four_dropdown = 1600
+ car.gear_four_dropdown_ratio =
+  0.25
  car.gear_five_ratio = 0.91
  car.gear_five_vmax = 223
  car.gear_five_time = 27.3
  car.gear_five_dropdown = 1200
+ car.gear_five_dropdown_ratio =
+  0.18
  car.gear_six_ratio = 0.74
  car.gear_six_vmax = 272
  car.gear_six_time = 95.1
  car.gear_six_dropdown = 1250
+ car.gear_six_dropdown_ratio =
+  0.19
  car.gears_data = {
   {car.gear_one_vmax,
    car.gear_one_time,
