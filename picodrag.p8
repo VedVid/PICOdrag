@@ -493,15 +493,14 @@ function player_update(player, car, track)
 end
 
 function make_car()
- return make_porsche()
+ return make_porssa()
 end
 
-function make_porsche()
+function make_porssa()
  local car = {}
- car.brand = "porsche"
- car.model = "718 s boxster gt4"
- car.variant = "generation 982"
- car.engine = "2.5 h4"
+ car.brand = "porsssa"
+ car.model = "boxster"
+ car.engine = "4.0"
  car.class = "supercar"
  car.year = 2020
  car.speedometer_interval = 30
@@ -576,12 +575,12 @@ function make_porsche()
  return car
 end
 
-function make_honda()
+function make_hondu()
  local car = {}
- car.brand = "honda"
- car.model = "civic"
- car.variant = "type r"
- car.engine = "2.0 vtec"
+ car.brand = "hondu"
+ car.model = "cibib"
+ car.variant = "type rev"
+ car.engine = "2.0"
  car.class = "sport"
  car.year = 2020
  car.speedometer_interval = 30
@@ -656,12 +655,12 @@ function make_honda()
  return car
 end
 
-function make_abarth()
+function make_abarb()
  local car = {}
- car.brand = "abarth"
- car.model = "595"
+ car.brand = "abarb"
+ car.model = "505"
  car.variant = ""
- car.engine = "1.4 t-jet"
+ car.engine = "1.4"
  car.class = "road"
  car.year = 2017
  car.speedometer_interval = 20
