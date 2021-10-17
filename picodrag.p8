@@ -686,6 +686,8 @@ function car_calc_dropdown(car)
    car.current_rpm -= car.current_rpm * (car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio)
   elseif car.current_gear == 5 then
    car.current_rpm -= car.current_rpm * (car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
+  elseif car.current_gear == 6 then
+   car.current_rpm -= car.current_rpm * (car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio + car.gear_six_dropdown_ratio)
   end
   
  elseif car.previous_gear == 2 then
@@ -697,6 +699,8 @@ function car_calc_dropdown(car)
    car.current_rpm -= car.current_rpm * (car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio)
   elseif car.current_gear == 5 then
    car.current_rpm -= car.current_rpm * (car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
+  elseif car.current_gear == 6 then
+   car.current_rpm -= car.current_rpm * (car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio + car.gear_six_dropdown_ratio)
   end
   
  elseif car.previous_gear == 3 then
@@ -708,6 +712,8 @@ function car_calc_dropdown(car)
    car.current_rpm -= car.current_rpm * car.gear_four_dropdown_ratio
   elseif car.current_gear == 5 then
    car.current_rpm -= car.current_rpm * (car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
+  elseif car.current_gear == 6 then
+   car.current_rpm -= car.current_rpm * (car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio + car.gear_six_dropdown_ratio)
   end
 
  elseif car.previous_gear == 4 then
@@ -719,6 +725,8 @@ function car_calc_dropdown(car)
    car.current_rpm += car.current_rpm * car.gear_three_dropdown_ratio
   elseif car.current_gear == 5 then
    car.current_rpm -= car.current_rpm * car.gear_five_dropdown_ratio
+  elseif car.current_gear == 6 then
+   car.current_rpm -= car.current_rpm * (car.gear_five_dropdown_ratio + car.gear_six_dropdown_ratio)
   end
 
  elseif car.previous_gear == 5 then
@@ -730,7 +738,21 @@ function car_calc_dropdown(car)
    car.current_rpm += car.current_rpm * (car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio)
   elseif car.current_gear == 4 then
    car.current_rpm += car.current_rpm * car.gear_four_dropdown_ratio
+  elseif car.current_gear == 6 then
+   car.current_rpm -= car.current_rpm * car.gear_six_dropdown_ratio
   end
+
+ elseif car.previous_gear == 6 then
+  if car.current_gear == 1 then
+   car.current_rpm += car.current_rpm * (car.gear_one_dropdown_ratio + car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
+  elseif car.current_gear == 2 then
+   car.current_rpm += car.current_rpm * (car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
+  elseif car.current_gear == 3 then
+   car.current_rpm += car.current_rpm * (car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
+  elseif car.current_gear == 4 then
+   car.current_rpm += car.current_rpm * (car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
+  elseif car.current_gear == 5 then
+   car.current_rpm += car.current_rpm * car.gear_five_dropdown_ratio
  end
 
  car.current_rpm = flr(car.current_rpm)
