@@ -753,6 +753,7 @@ function car_calc_dropdown(car)
    car.current_rpm += car.current_rpm * (car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
   elseif car.current_gear == 5 then
    car.current_rpm += car.current_rpm * car.gear_five_dropdown_ratio
+  end
  end
 
  car.current_rpm = flr(car.current_rpm)
