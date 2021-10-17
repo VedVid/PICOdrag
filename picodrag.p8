@@ -582,6 +582,7 @@ function make_abarth()
  car.gear_one_vmax = 47
  car.gear_one_time = 3.0
  car.gear_one_dropdown = 1000
+ -- dropdown ratio is % of dropdown of rpm_max
  car.gear_one_dropdown_ratio =
   0.18
  car.gear_two_ratio = 2.24
@@ -665,57 +666,57 @@ end
 function car_calc_dropdown(car)
  if car.previous_gear == 1 then
   if car.current_gear == 2 then
-   car.current_rpm -= (car.current_rpm * car.gear_two_dropdown_ratio)
+   car.current_rpm -= car.current_rpm * car.gear_two_dropdown_ratio
   elseif car.current_gear == 3 then
-   car.current_rpm -= ((car.current_rpm * car.gear_two_dropdown_ratio) + (car.current_rpm * car.gear_three_dropdown_ratio))
+   car.current_rpm -= car.current_rpm * (car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio)
   elseif car.current_gear == 4 then
-   car.current_rpm -= ((car.current_rpm * car.gear_two_dropdown_ratio) + (car.current_rpm * car.gear_three_dropdown_ratio) + (car.current_rpm * car.gear_four_dropdown_ratio))
+   car.current_rpm -= car.current_rpm * (car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio)
   elseif car.current_gear == 5 then
-   car.current_rpm -= ( (car.current_rpm * car.gear_two_dropdown_ratio) + (car.current_rpm * car.gear_three_dropdown_ratio) + (car.current_rpm * car.gear_four_dropdown_ratio) + (car.current_rpm * car.gear_five_dropdown_ratio)) 
+   car.current_rpm -= car.current_rpm * (car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
   end
   
  elseif car.previous_gear == 2 then
   if car.current_gear == 1 then
-   car.current_rpm += car.gear_two_dropdown
+   car.current_rpm += car.current_rpm * car.gear_two_dropdown_ratio
   elseif car.current_gear == 3 then
-   car.current_rpm -= car.gear_three_dropdown
+   car.current_rpm -= car.current_rpm * car.gear_three_dropdown_ratio
   elseif car.current_gear == 4 then
-   car.current_rpm -= (car.gear_three_dropdown + car.gear_four_dropdown)
+   car.current_rpm -= car.current_rpm * (car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio)
   elseif car.current_gear == 5 then
-   car.current_rpm -= (car.gear_three_dropdown + car.gear_four_dropdwon + car.gear_five_dropdown)
+   car.current_rpm -= car.current_rpm * (car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
   end
   
  elseif car.previous_gear == 3 then
   if car.current_gear == 1 then
-   car.current_rpm += (car.gear_one_dropdown + car.gear_two_dropdown)
+   car.current_rpm += car.current_rpm * (car.gear_one_dropdown_ratio + car.gear_two_dropdown_ratio)
   elseif car.current_gear == 2 then
-   car.current_rpm += car.gear_two_dropdown
+   car.current_rpm += car.current_rpm * car.gear_two_dropdown_ratio
   elseif car.current_gear == 4 then
-   car.current_rpm -= car.gear_four_dropdown
+   car.current_rpm -= car.current_rpm * car.gear_four_dropdown_ratio
   elseif car.current_gear == 5 then
-   car.current_rpm -= (car.gear_four_dropdown + car.gear_five_dropdown)
+   car.current_rpm -= car.current_rpm * (car.gear_four_dropdown_ratio + car.gear_five_dropdown_ratio)
   end
 
  elseif car.previous_gear == 4 then
   if car.current_gear == 1 then
-   car.current_rpm += (car.gear_one_dropdown + car.gear_two_dropdown + car.gear_three_dropdown)
+   car.current_rpm += car.current_rpm * (car.gear_one_dropdown_ratio + car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio)
   elseif car.current_gear == 2 then
-   car.current_rpm += (car.gear_two_dropdown + car.gear_three_dropdown)
+   car.current_rpm += car.current_rpm * (car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio)
   elseif car.current_gear == 3 then
-   car.current_rpm += car.gear_three_dropdown
+   car.current_rpm += car.current_rpm * car.gear_three_dropdown_ratio
   elseif car.current_gear == 5 then
-   car.current_rpm -= car.gear_five_dropdown
+   car.current_rpm -= car.current_rpm * car.gear_five_dropdown_ratio
   end
 
  elseif car.previous_gear == 5 then
   if car.current_gear == 1 then
-   car.current_rpm += (car.gear_one_dropdown + car.gear_two_dropdown + car.gear_three_dropdown + car.gear_four_dropdown)
+   car.current_rpm += car.current_rpm * (car.gear_one_dropdown_ratio + car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio)
   elseif car.current_gear == 2 then
-   car.current_rpm += (car.gear_two_dropdown + car.gear_three_dropdown + car.gear_four_dropdown)
+   car.current_rpm += car.current_rpm * (car.gear_two_dropdown_ratio + car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio)
   elseif car.current_gear == 3 then
-   car.current_rpm += (car.gear_three_dropdown + car.gear_four_dropdown)
+   car.current_rpm += car.current_rpm * (car.gear_three_dropdown_ratio + car.gear_four_dropdown_ratio)
   elseif car.current_gear == 4 then
-   car.current_rpm += car.gear_four_dropdown
+   car.current_rpm += car.current_rpm * car.gear_four_dropdown_ratio
   end
  end
 
