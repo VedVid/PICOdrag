@@ -502,6 +502,7 @@ function make_honda()
  car.model = "civic"
  car.variant = "type r"
  car.engine = "2.0 vtec"
+ car.class = "sport"
  car.year = 2020
  car.speedometer_interval = 30
  car.horsepower = 320
@@ -581,6 +582,7 @@ function make_abarth()
  car.model = "595"
  car.variant = ""
  car.engine = "1.4 t-jet"
+ car.class = "road"
  car.year = 2017
  car.speedometer_interval = 20
  car.horsepower = 160
