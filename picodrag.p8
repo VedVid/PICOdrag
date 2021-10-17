@@ -493,7 +493,7 @@ function player_update(player, car, track)
 end
 
 function make_car()
- return make_abarth()
+ return make_honda()
 end
 
 function make_honda()
