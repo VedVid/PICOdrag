@@ -16,7 +16,7 @@ end
 function _update()
  handle_keys(player.car)
  actors_update(opponents, player, track)
- car_update(player.car)
+ cars_update(opponents, player)
  gauges_update(ui, player.car)
 end
 
@@ -377,6 +377,25 @@ function handle_keys(car)
  end
 end
 
+function handle_opponent_car(opponent)
+ local cgear = opponent.car.current_gear
+ local ngear = nil
+ if cgear == 0 then
+  ngear = 1
+ else
+  if (opponent.car.current_rpm >=
+   opponent.car.rpm_max) then
+    if cgear < 5 then
+     ngear = cgear + 1
+    elseif (cgear == 5 and
+     opponent.car.gears_data[6]) then
+     ngear = cgear + 1
+    end
+  end
+ end
+ opponent.car.current_gear = ngear
+end
+
 -->8
 -- player and cars
 
@@ -395,6 +414,7 @@ end
 function make_opponents()
  local opponents = {}
  local opponent_1 = {}
+ opponent_1.ai = 1
  opponent_1.x = track.start_x
  opponent_1.x_dec = 0
  opponent_1.y = track.start_y
@@ -517,6 +537,7 @@ end
 function actors_update(opponents, player, track)
  actor_update(player, track)
  for k, v in pairs(opponents) do
+  handle_opponent_car(v)
   actor_update(v, track)
  end
 end
@@ -784,6 +805,13 @@ function car_update(car)
  end
  car.current_speed = calculate_speed(car)
  return true
+end
+
+function cars_update(opponents, player)
+ car_update(player.car)
+ for k, v in pairs(opponents) do
+  car_update(v.car)
+ end
 end
 
 function car_calc_dropdown(car)
