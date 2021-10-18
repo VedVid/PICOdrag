@@ -171,9 +171,13 @@ end
 -- drawing functions
 
 function draw_actors(opponents, player)
+ local col = 1
  for k, v in pairs(opponents) do
+  col += 1
+  pal(1, col)
   spr(v.sprite, v.x, v.y)
  end
+ pal()
  spr(player.sprite, player.x, player.y)
 end
 
