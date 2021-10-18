@@ -25,6 +25,13 @@ function _draw()
  draw_ui(ui, player)
  draw_track(track)
  draw_actors(opponents, player)
+ --local opp = opponents[1]
+ --if opp.car.current_gear > 0 then
+ --print(opp.car.current_gear..":"..opp.car.gears_data[opp.car.current_gear][2])
+ --end
+ for k, v in pairs(opponents) do
+  print(v.car.gears_data[v.car.current_gear][3])
+ end
  if ui.gearbox.current_gear then
   print(ui.gearbox.current_gear[1]..":"..ui.gearbox.current_gear[2])
  else
