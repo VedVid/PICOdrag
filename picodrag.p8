@@ -24,7 +24,7 @@ function _draw()
  cls()
  draw_ui(ui, player)
  draw_track(track)
- draw_player(player)
+ draw_actors(opponents, player)
  if ui.gearbox.current_gear then
   print(ui.gearbox.current_gear[1]..":"..ui.gearbox.current_gear[2])
  else
@@ -170,7 +170,10 @@ end
 -->8
 -- drawing functions
 
-function draw_player(player)
+function draw_actors(opponents, player)
+ for k, v in pairs(opponents) do
+  spr(v.sprite, v.x, v.y)
+ end
  spr(player.sprite, player.x, player.y)
 end
 
