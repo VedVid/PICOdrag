@@ -15,7 +15,7 @@ Roadmap:
 - [ ] clutch
 - [x] tracks
 - [ ] high scores
-- [ ] opponents
+- [x] opponents
 - [ ] ...more...
 
 #### How is this game being developed?
