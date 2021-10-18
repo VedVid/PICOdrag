@@ -8,21 +8,20 @@ function _init()
  fps = 30
  km_ratio = 0.1
  track = make_track()
- player = make_player(track)
- car = make_car()
- ui = create_ui(car)
+ player = make_player()
+ ui = create_ui(player)
 end
 
 function _update()
- handle_keys()
- player_update(player, car, track)
- car_update(car)
- gauges_update(ui, car)
+ handle_keys(player.car)
+ player_update(player, track)
+ car_update(player.car)
+ gauges_update(ui, player.car)
 end
 
 function _draw()
  cls()
- draw_ui(ui, car)
+ draw_ui(ui, player)
  draw_track(track)
  draw_player(player)
  if ui.gearbox.current_gear then
@@ -30,8 +29,8 @@ function _draw()
  else
   print("no gearbox info")
  end
- if (car.current_rpm) or (car.current_speed) then
-  print(car.current_rpm.."rpm, "..car.current_speed.."kmph")
+ if (player.car.current_rpm) or (player.car.current_speed) then
+  print(player.car.current_rpm.."rpm, "..player.car.current_speed.."kmph")
  else
   print("no rpm and speed info")
  end
@@ -45,14 +44,14 @@ end
 -->8
 -- creation of ui elements
 
-function create_ui(car)
+function create_ui(player)
  local ui = {}
  ui.speedometer =
-  create_speedometer(0, 88, car)
+  create_speedometer(0, 88, player.car)
  ui.tachometer =
-  create_tachometer(0, 104)
+  create_tachometer(0, 104, player.car)
  ui.gearbox =
-  create_gearbox(90, 108, car)
+  create_gearbox(90, 108, player.car)
  return ui
 end
 
@@ -80,7 +79,7 @@ function create_speedometer(x, y, car)
   create_gauge(x, y, sprites)
 end
 
-function create_tachometer(x, y)
+function create_tachometer(x, y, car)
  local sprites = {}
  for i=1, (car.rpm_max_for_gauge / 1000) - 1  do
   add(sprites, 17)
@@ -174,9 +173,9 @@ function draw_player(player)
  spr(player.sprite, player.x, player.y)
 end
 
-function draw_ui(ui, car)
+function draw_ui(ui, player)
  draw_gauges()
- draw_gearbox(car)
+ draw_gearbox(player.car)
 end
 
 function draw_track(track)
@@ -242,7 +241,7 @@ end
 -->8
 -- handling keys
 
-function handle_keys()
+function handle_keys(car)
  -- left:  0
  -- right: 1
  -- up:    2
@@ -366,14 +365,14 @@ function handle_keys()
   ui.gearbox.current_gear = ngear
   ui.gearbox.handle.x += 8*dir[1]
   ui.gearbox.handle.y += 8*dir[2]
-  car_calc_dropdown(car)
+  car_calc_dropdown(player.car)
  end
 end
 
 -->8
 -- player and cars
 
-function make_player(track)
+function make_player()
  local player = {}
  player.x = track.start_x
  player.x_dec = 0
@@ -381,10 +380,11 @@ function make_player(track)
  player.y_dec = 0
  player.sprite = 48
  player.cell = 1
+ player.car = make_car()
  return player
 end
 
-function player_update(player, car, track)
+function player_update(player, track)
  local move_x = 0
  local move_y = 0
  local cell = nil
@@ -402,30 +402,30 @@ function player_update(player, car, track)
  end
  if cell == 10 or
   cell == 42 then
-  move_x = car.current_speed * km_ratio 
+  move_x = player.car.current_speed * km_ratio 
  elseif cell == 26 then
-  move_x = (-1) * car.current_speed * km_ratio 
+  move_x = (-1) * player.car.current_speed * km_ratio 
  elseif cell == 11 or
   cell == 43 then
-  move_y = car.current_speed * km_ratio
+  move_y = player.car.current_speed * km_ratio
  elseif cell == 27 then
-  move_y = (-1) * car.current_speed * km_ratio
+  move_y = (-1) * player.car.current_speed * km_ratio
  elseif cell == 12 then
-  move_x = car.current_speed * km_ratio
+  move_x = player.car.current_speed * km_ratio
  elseif cell == 13 then
-  move_y = car.current_speed * km_ratio
+  move_y = player.car.current_speed * km_ratio
  elseif cell == 29 then
-  move_x = (-1) * car.current_speed * km_ratio
+  move_x = (-1) * player.car.current_speed * km_ratio
  elseif cell == 28 then
-  move_y = (-1) * car.current_speed * km_ratio
+  move_y = (-1) * player.car.current_speed * km_ratio
  elseif cell == 14 then
-  move_y = car.current_speed * km_ratio
+  move_y = player.car.current_speed * km_ratio
  elseif cell == 30 then
-  move_x = car.current_speed * km_ratio
+  move_x = player.car.current_speed * km_ratio
  elseif cell == 31 then
-  move_y = (-1) * car.current_speed * km_ratio
+  move_y = (-1) * player.car.current_speed * km_ratio
  elseif cell == 15 then
-  move_x = (-1) * car.current_speed * km_ratio
+  move_x = (-1) * player.car.current_speed * km_ratio
  end
  player.x_dec += move_x
  player.y_dec += move_y
