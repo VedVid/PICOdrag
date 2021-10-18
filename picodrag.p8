@@ -585,42 +585,43 @@ function make_porssa()
  car.speed_max_for_gauge = 320
  car.final_drive_ratio = 4.04
  car.wheel_ratio = 0.33
+ car.torque_min = 310
  -- {nm, rpm}
  car.torque_max = {420, 5900}
  car.gear_one_ratio = 3.31
  car.gear_one_vmax = 74
- car.gear_one_time = 4.55
+ car.gear_one_time = 2.96
  car.gear_one_dropdown = 3000
  -- dropdown ratio is % of dropdown of rpm_max
  car.gear_one_dropdown_ratio =
   0.38
  car.gear_two_ratio = 1.95
  car.gear_two_vmax = 126
- car.gear_two_time = 8.26
+ car.gear_two_time = 5.83
  car.gear_two_dropdown = 2000
  car.gear_two_dropdown_ratio =
   0.25
  car.gear_three_ratio = 1.41
  car.gear_three_vmax = 174
- car.gear_three_time = 11.96
+ car.gear_three_time = 9.84
  car.gear_three_dropdown = 2000
  car.gear_three_dropdown_ratio =
   0.25
  car.gear_four_ratio = 1.13
  car.gear_four_vmax = 218
- car.gear_four_time = 19.38
+ car.gear_four_time = 15.76
  car.gear_four_dropdown = 1500
  car.gear_four_dropdown_ratio =
   0.19
  car.gear_five_ratio = 0.95
  car.gear_five_vmax = 259
- car.gear_five_time = 36.48
+ car.gear_five_time = 28.56
  car.gear_five_dropdown = 1300
  car.gear_five_dropdown_ratio =
   0.16
  car.gear_six_ratio = 0.81
  car.gear_six_vmax = 304
- car.gear_six_time = 85.2
+ car.gear_six_time = 68.49
  car.gear_six_dropdown = 1200
  car.gear_six_dropdown_ratio =
   0.15
