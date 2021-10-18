@@ -8,30 +8,30 @@ function _init()
  fps = 30
  km_ratio = 0.1
  track = make_track()
- player = make_player(track)
- car = make_car()
- ui = create_ui(car)
+ player = make_player()
+ opponents = make_opponents()
+ ui = create_ui(player)
 end
 
 function _update()
- handle_keys()
- player_update(player, car, track)
- car_update(car)
- gauges_update(ui, car)
+ handle_keys(player.car)
+ actors_update(opponents, player, track)
+ cars_update(opponents, player)
+ gauges_update(ui, player.car)
 end
 
 function _draw()
  cls()
- draw_ui(ui, car)
+ draw_ui(ui, player)
  draw_track(track)
- draw_player(player)
+ draw_actors(opponents, player)
  if ui.gearbox.current_gear then
   print(ui.gearbox.current_gear[1]..":"..ui.gearbox.current_gear[2])
  else
   print("no gearbox info")
  end
- if (car.current_rpm) or (car.current_speed) then
-  print(car.current_rpm.."rpm, "..car.current_speed.."kmph")
+ if (player.car.current_rpm) or (player.car.current_speed) then
+  print(player.car.current_rpm.."rpm, "..player.car.current_speed.."kmph")
  else
   print("no rpm and speed info")
  end
@@ -45,14 +45,14 @@ end
 -->8
 -- creation of ui elements
 
-function create_ui(car)
+function create_ui(player)
  local ui = {}
  ui.speedometer =
-  create_speedometer(0, 88, car)
+  create_speedometer(0, 88, player.car)
  ui.tachometer =
-  create_tachometer(0, 104)
+  create_tachometer(0, 104, player.car)
  ui.gearbox =
-  create_gearbox(90, 108, car)
+  create_gearbox(90, 108, player.car)
  return ui
 end
 
@@ -80,7 +80,7 @@ function create_speedometer(x, y, car)
   create_gauge(x, y, sprites)
 end
 
-function create_tachometer(x, y)
+function create_tachometer(x, y, car)
  local sprites = {}
  for i=1, (car.rpm_max_for_gauge / 1000) - 1  do
   add(sprites, 17)
@@ -170,13 +170,19 @@ end
 -->8
 -- drawing functions
 
-function draw_player(player)
+function draw_actors(opponents, player)
+ for k, v in pairs(opponents) do
+  pal(1, v.color)
+  spr(v.sprite, v.x, v.y)
+ end
+ pal(1, player.color)
  spr(player.sprite, player.x, player.y)
+ pal()
 end
 
-function draw_ui(ui, car)
+function draw_ui(ui, player)
  draw_gauges()
- draw_gearbox(car)
+ draw_gearbox(player.car)
 end
 
 function draw_track(track)
@@ -242,7 +248,7 @@ end
 -->8
 -- handling keys
 
-function handle_keys()
+function handle_keys(car)
  -- left:  0
  -- right: 1
  -- up:    2
@@ -366,98 +372,159 @@ function handle_keys()
   ui.gearbox.current_gear = ngear
   ui.gearbox.handle.x += 8*dir[1]
   ui.gearbox.handle.y += 8*dir[2]
-  car_calc_dropdown(car)
+  car_calc_dropdown(player.car)
+ end
+end
+
+function handle_opponent_car(opponent)
+ local cgear = opponent.car.current_gear
+ local ngear = nil
+ if cgear == 0 then
+  ngear = 1
+ else
+  if (opponent.car.current_rpm >=
+   opponent.car.rpm_max) then
+    if cgear < 5 then
+     ngear = cgear + 1
+    elseif (cgear == 5 and
+     opponent.car.gears_data[6]) then
+     ngear = cgear + 1
+    end
+  end
+ end
+ if ngear then
+  opponent.car.current_gear = ngear
  end
 end
 
 -->8
 -- player and cars
 
-function make_player(track)
+function make_player()
  local player = {}
+ player.color = 1
  player.x = track.start_x
  player.x_dec = 0
  player.y = track.start_y
  player.y_dec = 0
  player.sprite = 48
  player.cell = 1
+ player.car = make_hondu()
  return player
 end
 
-function player_update(player, car, track)
+function make_opponents()
+ local opponents = {}
+ local opponent_1 = {}
+ opponent_1.ai = 1
+ opponent_1.color = 2
+ opponent_1.x = track.start_x
+ opponent_1.x_dec = 0
+ opponent_1.y = track.start_y
+ opponent_1.y_dec = 0
+ opponent_1.sprite = 48
+ opponent_1.cell = 1
+ opponent_1.car = make_porssa()
+ add(opponents, opponent_1)
+ local opponent_2 = {}
+ opponent_2.ai = 1
+ opponent_2.color = 8
+ opponent_2.x = track.start_x
+ opponent_2.x_dec = 0
+ opponent_2.y = track.start_y
+ opponent_2.y_dec = 0
+ opponent_2.sprite = 48
+ opponent_2.cell = 1
+ opponent_2.car = make_hondu()
+ add(opponents, opponent_2)
+ local opponent_3 = {}
+ opponent_3.ai = 1
+ opponent_3.color = 3
+ opponent_3.x = track.start_x
+ opponent_3.x_dec = 0
+ opponent_3.y = track.start_y
+ opponent_3.y_dec = 0
+ opponent_3.sprite = 48
+ opponent_3.cell = 1
+ opponent_3.car = make_abarb()
+ add(opponents, opponent_3) 
+ return opponents
+end
+
+function actor_update(actor, track)
  local move_x = 0
  local move_y = 0
  local cell = nil
- if track.cells[player.cell] then
-  cell = track.cells[player.cell][3]
+ if track.cells[actor.cell] then
+  cell = track.cells[actor.cell][3]
  else
-  player.cell = 1
-  cell = track.cells[player.cell][3]
+  actor.cell = 1
+  cell = track.cells[actor.cell][3]
  end
  local ncell = nil
- if track.cells[player.cell+1] then
-  ncell = track.cells[player.cell+1][3]
+ if track.cells[actor.cell+1] then
+  ncell = track.cells[actor.cell+1][3]
  else
   ncell = track.cells[1][3]
  end
  if cell == 10 or
   cell == 42 then
-  move_x = car.current_speed * km_ratio 
+  move_x = actor.car.current_speed * km_ratio 
  elseif cell == 26 then
-  move_x = (-1) * car.current_speed * km_ratio 
+  move_x = (-1) * actor.car.current_speed * km_ratio 
  elseif cell == 11 or
   cell == 43 then
-  move_y = car.current_speed * km_ratio
+  move_y = actor.car.current_speed * km_ratio
  elseif cell == 27 then
-  move_y = (-1) * car.current_speed * km_ratio
+  move_y = (-1) * actor.car.current_speed * km_ratio
  elseif cell == 12 then
-  move_x = car.current_speed * km_ratio
+  move_x = actor.car.current_speed * km_ratio
  elseif cell == 13 then
-  move_y = car.current_speed * km_ratio
+  move_y = actor.car.current_speed * km_ratio
  elseif cell == 29 then
-  move_x = (-1) * car.current_speed * km_ratio
+  move_x = (-1) * actor.car.current_speed * km_ratio
  elseif cell == 28 then
-  move_y = (-1) * car.current_speed * km_ratio
+  move_y = (-1) * actor.car.current_speed * km_ratio
  elseif cell == 14 then
-  move_y = car.current_speed * km_ratio
+  move_y = actor.car.current_speed * km_ratio
  elseif cell == 30 then
-  move_x = car.current_speed * km_ratio
+  move_x = actor.car.current_speed * km_ratio
  elseif cell == 31 then
-  move_y = (-1) * car.current_speed * km_ratio
+  move_y = (-1) * actor.car.current_speed * km_ratio
  elseif cell == 15 then
-  move_x = (-1) * car.current_speed * km_ratio
+  move_x = (-1) * actor.car.current_speed * km_ratio
  end
- player.x_dec += move_x
- player.y_dec += move_y
+ actor.x_dec += move_x
+ actor.y_dec += move_y
  local cont = true
  while cont do
-  if player.x_dec >= 10 then
-   player.x += 1
-   player.x_dec -= 10
-   if player.x % 8 == 0 then
-    player.cell += 1
-	   player.x_dec = 0
+  if actor.x_dec >= 10 then
+   actor.x += 1
+   actor.x_dec -= 10
+   if actor.x % 8 == 0 then
+    actor.cell += 1
+	   actor.x_dec = 0
    end
-  elseif player.x_dec <= -10 then
-   player.x -= 1
-   player.x_dec += 10
-   if player.x % 8 == 0 then
-    player.cell += 1
-	   player.x_dec = 0
+  elseif actor.x_dec <= -10 then
+   actor.x -= 1
+   actor.x_dec += 10
+   if actor.x % 8 == 0 then
+    actor.cell += 1
+	   actor.x_dec = 0
    end
-  elseif player.y_dec >= 10 then
-   player.y += 1
-   player.y_dec -= 10
-   if player.y % 8 == 0 then
-    player.cell += 1
-	   player.y_dec = 0
+  elseif actor.y_dec >= 10 then
+   actor.y += 1
+   actor.y_dec -= 10
+   if actor.y % 8 == 0 then
+    actor.cell += 1
+	   actor.y_dec = 0
    end
-  elseif player.y_dec <= -10 then
-   player.y -= 1
-   player.y_dec += 10
-   if player.y % 8 == 0 then
-    player.cell += 1
-	   player.y_dec = 0
+  elseif actor.y_dec <= -10 then
+   actor.y -= 1
+   actor.y_dec += 10
+   if actor.y % 8 == 0 then
+    actor.cell += 1
+	   actor.y_dec = 0
    end
   else
    cont = false
@@ -465,30 +532,38 @@ function player_update(player, car, track)
  end
  if ncell == 10 or
   ncell == 42 then
-  player.sprite = 48
+  actor.sprite = 48
  elseif ncell == 26 then
-  player.sprite = 52
+  actor.sprite = 52
  elseif ncell == 11 or
   ncell == 43 then
-  player.sprite = 54
+  actor.sprite = 54
  elseif ncell == 27 then
-  player.sprite = 50
+  actor.sprite = 50
  elseif ncell == 12 then
-  player.sprite = 49
+  actor.sprite = 49
  elseif ncell == 13 then
-  player.sprite = 55
+  actor.sprite = 55
  elseif ncell == 29 then
-  player.sprite = 53
+  actor.sprite = 53
  elseif ncell == 28 then
-  player.sprite = 51
+  actor.sprite = 51
  elseif ncell == 14 then
-  player.sprite = 53
+  actor.sprite = 53
  elseif ncell == 30 then
-  player.sprite = 55
+  actor.sprite = 55
  elseif ncell == 31 then
-  player.sprite = 49
+  actor.sprite = 49
  elseif ncell == 15 then
-  player.sprite = 51
+  actor.sprite = 51
+ end
+end
+
+function actors_update(opponents, player, track)
+ actor_update(player, track)
+ for k, v in pairs(opponents) do
+  handle_opponent_car(v)
+  actor_update(v, track)
  end
 end
 
@@ -755,6 +830,13 @@ function car_update(car)
  end
  car.current_speed = calculate_speed(car)
  return true
+end
+
+function cars_update(opponents, player)
+ car_update(player.car)
+ for k, v in pairs(opponents) do
+  car_update(v.car)
+ end
 end
 
 function car_calc_dropdown(car)
