@@ -380,7 +380,7 @@ function make_player()
  player.y_dec = 0
  player.sprite = 48
  player.cell = 1
- player.car = make_car()
+ player.car = make_hondu()
  return player
 end
 
