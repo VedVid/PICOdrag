@@ -15,7 +15,7 @@ end
 
 function _update()
  handle_keys(player.car)
- player_update(player, track)
+ actors_update(opponents, player, track)
  car_update(player.car)
  gauges_update(ui, player.car)
 end
@@ -402,80 +402,80 @@ function make_opponents()
  return opponents
 end
 
-function player_update(player, track)
+function actor_update(actor, track)
  local move_x = 0
  local move_y = 0
  local cell = nil
- if track.cells[player.cell] then
-  cell = track.cells[player.cell][3]
+ if track.cells[actor.cell] then
+  cell = track.cells[actor.cell][3]
  else
-  player.cell = 1
-  cell = track.cells[player.cell][3]
+  actor.cell = 1
+  cell = track.cells[actor.cell][3]
  end
  local ncell = nil
- if track.cells[player.cell+1] then
-  ncell = track.cells[player.cell+1][3]
+ if track.cells[actor.cell+1] then
+  ncell = track.cells[actor.cell+1][3]
  else
   ncell = track.cells[1][3]
  end
  if cell == 10 or
   cell == 42 then
-  move_x = player.car.current_speed * km_ratio 
+  move_x = actor.car.current_speed * km_ratio 
  elseif cell == 26 then
-  move_x = (-1) * player.car.current_speed * km_ratio 
+  move_x = (-1) * actor.car.current_speed * km_ratio 
  elseif cell == 11 or
   cell == 43 then
-  move_y = player.car.current_speed * km_ratio
+  move_y = actor.car.current_speed * km_ratio
  elseif cell == 27 then
-  move_y = (-1) * player.car.current_speed * km_ratio
+  move_y = (-1) * actor.car.current_speed * km_ratio
  elseif cell == 12 then
-  move_x = player.car.current_speed * km_ratio
+  move_x = actor.car.current_speed * km_ratio
  elseif cell == 13 then
-  move_y = player.car.current_speed * km_ratio
+  move_y = actor.car.current_speed * km_ratio
  elseif cell == 29 then
-  move_x = (-1) * player.car.current_speed * km_ratio
+  move_x = (-1) * actor.car.current_speed * km_ratio
  elseif cell == 28 then
-  move_y = (-1) * player.car.current_speed * km_ratio
+  move_y = (-1) * actor.car.current_speed * km_ratio
  elseif cell == 14 then
-  move_y = player.car.current_speed * km_ratio
+  move_y = actor.car.current_speed * km_ratio
  elseif cell == 30 then
-  move_x = player.car.current_speed * km_ratio
+  move_x = actor.car.current_speed * km_ratio
  elseif cell == 31 then
-  move_y = (-1) * player.car.current_speed * km_ratio
+  move_y = (-1) * actor.car.current_speed * km_ratio
  elseif cell == 15 then
-  move_x = (-1) * player.car.current_speed * km_ratio
+  move_x = (-1) * actor.car.current_speed * km_ratio
  end
- player.x_dec += move_x
- player.y_dec += move_y
+ actor.x_dec += move_x
+ actor.y_dec += move_y
  local cont = true
  while cont do
-  if player.x_dec >= 10 then
-   player.x += 1
-   player.x_dec -= 10
-   if player.x % 8 == 0 then
-    player.cell += 1
-	   player.x_dec = 0
+  if actor.x_dec >= 10 then
+   actor.x += 1
+   actor.x_dec -= 10
+   if actor.x % 8 == 0 then
+    actor.cell += 1
+	   actor.x_dec = 0
    end
-  elseif player.x_dec <= -10 then
-   player.x -= 1
-   player.x_dec += 10
-   if player.x % 8 == 0 then
-    player.cell += 1
-	   player.x_dec = 0
+  elseif actor.x_dec <= -10 then
+   actor.x -= 1
+   actor.x_dec += 10
+   if actor.x % 8 == 0 then
+    actor.cell += 1
+	   actor.x_dec = 0
    end
-  elseif player.y_dec >= 10 then
-   player.y += 1
-   player.y_dec -= 10
-   if player.y % 8 == 0 then
-    player.cell += 1
-	   player.y_dec = 0
+  elseif actor.y_dec >= 10 then
+   actor.y += 1
+   actor.y_dec -= 10
+   if actor.y % 8 == 0 then
+    actor.cell += 1
+	   actor.y_dec = 0
    end
-  elseif player.y_dec <= -10 then
-   player.y -= 1
-   player.y_dec += 10
-   if player.y % 8 == 0 then
-    player.cell += 1
-	   player.y_dec = 0
+  elseif actor.y_dec <= -10 then
+   actor.y -= 1
+   actor.y_dec += 10
+   if actor.y % 8 == 0 then
+    actor.cell += 1
+	   actor.y_dec = 0
    end
   else
    cont = false
@@ -483,30 +483,37 @@ function player_update(player, track)
  end
  if ncell == 10 or
   ncell == 42 then
-  player.sprite = 48
+  actor.sprite = 48
  elseif ncell == 26 then
-  player.sprite = 52
+  actor.sprite = 52
  elseif ncell == 11 or
   ncell == 43 then
-  player.sprite = 54
+  actor.sprite = 54
  elseif ncell == 27 then
-  player.sprite = 50
+  actor.sprite = 50
  elseif ncell == 12 then
-  player.sprite = 49
+  actor.sprite = 49
  elseif ncell == 13 then
-  player.sprite = 55
+  actor.sprite = 55
  elseif ncell == 29 then
-  player.sprite = 53
+  actor.sprite = 53
  elseif ncell == 28 then
-  player.sprite = 51
+  actor.sprite = 51
  elseif ncell == 14 then
-  player.sprite = 53
+  actor.sprite = 53
  elseif ncell == 30 then
-  player.sprite = 55
+  actor.sprite = 55
  elseif ncell == 31 then
-  player.sprite = 49
+  actor.sprite = 49
  elseif ncell == 15 then
-  player.sprite = 51
+  actor.sprite = 51
+ end
+end
+
+function actors_update(opponents, player, track)
+ actor_update(player, track)
+ for k, v in pairs(opponents) do
+  actor_update(v, track)
  end
 end
 
