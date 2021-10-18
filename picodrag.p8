@@ -25,13 +25,6 @@ function _draw()
  draw_ui(ui, player)
  draw_track(track)
  draw_actors(opponents, player)
- --local opp = opponents[1]
- --if opp.car.current_gear > 0 then
- --print(opp.car.current_gear..":"..opp.car.gears_data[opp.car.current_gear][2])
- --end
- for k, v in pairs(opponents) do
-  print(v.car.gears_data[v.car.current_gear][3])
- end
  if ui.gearbox.current_gear then
   print(ui.gearbox.current_gear[1]..":"..ui.gearbox.current_gear[2])
  else
@@ -432,6 +425,26 @@ function make_opponents()
  opponent_1.cell = 1
  opponent_1.car = make_porssa()
  add(opponents, opponent_1)
+ local opponent_2 = {}
+ opponent_2.ai = 1
+ opponent_2.x = track.start_x
+ opponent_2.x_dec = 0
+ opponent_2.y = track.start_y
+ opponent_2.y_dec = 0
+ opponent_2.sprite = 48
+ opponent_2.cell = 1
+ opponent_2.car = make_hondu()
+ add(opponents, opponent_2)
+ local opponent_3 = {}
+ opponent_3.ai = 1
+ opponent_3.x = track.start_x
+ opponent_3.x_dec = 0
+ opponent_3.y = track.start_y
+ opponent_3.y_dec = 0
+ opponent_3.sprite = 48
+ opponent_3.cell = 1
+ opponent_3.car = make_abarb()
+ add(opponents, opponent_3) 
  return opponents
 end
 
