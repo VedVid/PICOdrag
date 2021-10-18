@@ -400,7 +400,9 @@ function handle_opponent_car(opponent)
     end
   end
  end
- opponent.car.current_gear = ngear
+ if ngear then
+  opponent.car.current_gear = ngear
+ end
 end
 
 -->8
