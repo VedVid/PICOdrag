@@ -6,7 +6,7 @@ __lua__
 function _init()
  pi = 3.14
  fps = 30
- km_ratio = 0.1
+ km_ratio = 0.01
  track = make_track()
  player = make_player()
  opponents = make_opponents()
@@ -452,83 +452,48 @@ function make_opponents()
 end
 
 function actor_update(actor, track)
- local move_x = 0
- local move_y = 0
  local cell = nil
  if track.cells[actor.cell] then
-  cell = track.cells[actor.cell][3]
+  cell = track.cells[actor.cell]
  else
   actor.cell = 1
-  cell = track.cells[actor.cell][3]
+  cell = track.cells[actor.cell]
  end
+ local cell_x = cell[1]
+ local cell_y = cell[2]
+ local cell_spr = cell[3]
  local ncell = nil
  if track.cells[actor.cell+1] then
   ncell = track.cells[actor.cell+1][3]
  else
   ncell = track.cells[1][3]
  end
- if cell == 10 or
-  cell == 42 then
-  move_x = actor.car.current_speed * km_ratio 
- elseif cell == 26 then
-  move_x = (-1) * actor.car.current_speed * km_ratio 
- elseif cell == 11 or
-  cell == 43 then
-  move_y = actor.car.current_speed * km_ratio
- elseif cell == 27 then
-  move_y = (-1) * actor.car.current_speed * km_ratio
- elseif cell == 12 then
-  move_x = actor.car.current_speed * km_ratio
- elseif cell == 13 then
-  move_y = actor.car.current_speed * km_ratio
- elseif cell == 29 then
-  move_x = (-1) * actor.car.current_speed * km_ratio
- elseif cell == 28 then
-  move_y = (-1) * actor.car.current_speed * km_ratio
- elseif cell == 14 then
-  move_y = actor.car.current_speed * km_ratio
+ if cell_spr == 10 or
+  cell_spr == 42 then
+  actor.x += actor.car.current_speed * km_ratio
+ elseif cell_spr == 26 then
+  actor.x -= actor.car.current_speed * km_ratio
+ elseif cell_spr == 11 or
+  cell_spr == 43 then
+  actor.y += actor.car.current_speed * km_ratio
+ elseif cell_spr == 27 then
+  actor.y -= actor.car.current_speed * km_ratio
+ elseif cell_spr == 12 then
+  actor.x += actor.car.current_speed * km_ratio
+ elseif cell_spr == 13 then
+  actor.y -= actor.car.current_speed * km_ratio
+ elseif cell_spr == 29 then
+  actor.x -= actor.car.current_speed * km_ratio
+ elseif cell_spr == 28 then
+  actor.y -= actor.car.current_speed * km_ratio
+ elseif cell_spr == 14 then
+  actor.y += actor.car.current_speed * km_ratio
  elseif cell == 30 then
-  move_x = actor.car.current_speed * km_ratio
+  actor.x += actor.car.current_speed * km_ratio
  elseif cell == 31 then
-  move_y = (-1) * actor.car.current_speed * km_ratio
+  actor.y -= actor.car.current_speed * km_ratio
  elseif cell == 15 then
-  move_x = (-1) * actor.car.current_speed * km_ratio
- end
- actor.x_dec += move_x
- actor.y_dec += move_y
- local cont = true
- while cont do
-  if actor.x_dec >= 10 then
-   actor.x += 1
-   actor.x_dec -= 10
-   if actor.x % 8 == 0 then
-    actor.cell += 1
-	   actor.x_dec = 0
-   end
-  elseif actor.x_dec <= -10 then
-   actor.x -= 1
-   actor.x_dec += 10
-   if actor.x % 8 == 0 then
-    actor.cell += 1
-	   actor.x_dec = 0
-   end
-  elseif actor.y_dec >= 10 then
-   actor.y += 1
-   actor.y_dec -= 10
-   if actor.y % 8 == 0 then
-    actor.cell += 1
-	   actor.y_dec = 0
-   end
-  elseif actor.y_dec <= -10 then
-   actor.y -= 1
-   actor.y_dec += 10
-   if actor.y % 8 == 0 then
-    actor.cell += 1
-	   actor.y_dec = 0
-   end
-  else
-   cont = false
-  end
+  actor.x -= actor.car.current_speed * km_ratio
  end
  if ncell == 10 or
   ncell == 42 then
