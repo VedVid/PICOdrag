@@ -9,6 +9,7 @@ function _init()
  km_ratio = 0.1
  track = make_track()
  player = make_player()
+ opponents = make_opponents()
  ui = create_ui(player)
 end
 
@@ -382,6 +383,20 @@ function make_player()
  player.cell = 1
  player.car = make_hondu()
  return player
+end
+
+function make_opponents()
+ local opponents = {}
+ local opponent_1 = {}
+ opponent_1.x = track.start_x
+ opponent_1.x_dec = 0
+ opponent_1.y = track.start_y
+ opponent_1.y_dec = 0
+ opponent_1.sprite = 48
+ opponent_1.cell = 1
+ opponent_1.car = make_porssa()
+ add(opponents, opponent_1)
+ return opponents
 end
 
 function player_update(player, track)
