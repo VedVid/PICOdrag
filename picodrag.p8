@@ -171,14 +171,13 @@ end
 -- drawing functions
 
 function draw_actors(opponents, player)
- local col = 1
  for k, v in pairs(opponents) do
-  col += 1
-  pal(1, col)
+  pal(1, v.color)
   spr(v.sprite, v.x, v.y)
  end
- pal()
+ pal(1, player.color)
  spr(player.sprite, player.x, player.y)
+ pal()
 end
 
 function draw_ui(ui, player)
@@ -403,6 +402,7 @@ end
 
 function make_player()
  local player = {}
+ player.color = 1
  player.x = track.start_x
  player.x_dec = 0
  player.y = track.start_y
@@ -417,6 +417,7 @@ function make_opponents()
  local opponents = {}
  local opponent_1 = {}
  opponent_1.ai = 1
+ opponent_1.color = 2
  opponent_1.x = track.start_x
  opponent_1.x_dec = 0
  opponent_1.y = track.start_y
@@ -427,6 +428,7 @@ function make_opponents()
  add(opponents, opponent_1)
  local opponent_2 = {}
  opponent_2.ai = 1
+ opponent_2.color = 8
  opponent_2.x = track.start_x
  opponent_2.x_dec = 0
  opponent_2.y = track.start_y
@@ -437,6 +439,7 @@ function make_opponents()
  add(opponents, opponent_2)
  local opponent_3 = {}
  opponent_3.ai = 1
+ opponent_3.color = 3
  opponent_3.x = track.start_x
  opponent_3.x_dec = 0
  opponent_3.y = track.start_y
