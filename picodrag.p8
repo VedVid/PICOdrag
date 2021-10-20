@@ -25,11 +25,15 @@ function _draw()
  draw_ui(ui, player)
  draw_track(track)
  draw_actors(opponents, player)
- if ui.gearbox.current_gear then
-  print(ui.gearbox.current_gear[1]..":"..ui.gearbox.current_gear[2])
- else
-  print("no gearbox info")
- end
+ local diff1 = player.cell - opponents[1].cell
+ local diff2 = player.cell - opponents[2].cell
+ local diff3 = player.cell - opponents[3].cell
+ print(diff1.." "..diff2.." "..diff3)
+ --if ui.gearbox.current_gear then
+ -- print(ui.gearbox.current_gear[1]..":"..ui.gearbox.current_gear[2])
+ --else
+ -- print("no gearbox info")
+ --end
  if (player.car.current_rpm) or (player.car.current_speed) then
   print(player.car.current_rpm.."rpm, "..player.car.current_speed.."kmph")
  else
@@ -409,7 +413,7 @@ function make_player()
  player.y_dec = 0
  player.sprite = 48
  player.cell = 1
- player.car = make_hondu()
+ player.car = make_porssa()
  return player
 end
 
