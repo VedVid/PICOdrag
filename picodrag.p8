@@ -6,7 +6,7 @@ __lua__
 function _init()
  pi = 3.14
  fps = 30
- km_ratio = 0.1
+ km_ratio = 0.01
  track = make_track()
  player = make_player()
  opponents = make_opponents()
@@ -188,8 +188,8 @@ end
 function draw_track(track)
  for k, v in pairs(track.cells) do
   spr(v[3],
-  track.x+(v[1]*8),
-  track.y+(v[2]*8))
+  track.x+v[1],
+  track.y+v[2])
  end
 end
 
@@ -452,109 +452,72 @@ function make_opponents()
 end
 
 function actor_update(actor, track)
- local move_x = 0
- local move_y = 0
  local cell = nil
  if track.cells[actor.cell] then
-  cell = track.cells[actor.cell][3]
+  cell = track.cells[actor.cell]
  else
   actor.cell = 1
-  cell = track.cells[actor.cell][3]
+  cell = track.cells[actor.cell]
  end
  local ncell = nil
  if track.cells[actor.cell+1] then
-  ncell = track.cells[actor.cell+1][3]
+  ncell = track.cells[actor.cell+1]
  else
-  ncell = track.cells[1][3]
+  ncell = track.cells[1]
  end
- if cell == 10 or
-  cell == 42 then
-  move_x = actor.car.current_speed * km_ratio 
- elseif cell == 26 then
-  move_x = (-1) * actor.car.current_speed * km_ratio 
- elseif cell == 11 or
-  cell == 43 then
-  move_y = actor.car.current_speed * km_ratio
- elseif cell == 27 then
-  move_y = (-1) * actor.car.current_speed * km_ratio
- elseif cell == 12 then
-  move_x = actor.car.current_speed * km_ratio
- elseif cell == 13 then
-  move_y = actor.car.current_speed * km_ratio
- elseif cell == 29 then
-  move_x = (-1) * actor.car.current_speed * km_ratio
- elseif cell == 28 then
-  move_y = (-1) * actor.car.current_speed * km_ratio
- elseif cell == 14 then
-  move_y = actor.car.current_speed * km_ratio
- elseif cell == 30 then
-  move_x = actor.car.current_speed * km_ratio
- elseif cell == 31 then
-  move_y = (-1) * actor.car.current_speed * km_ratio
- elseif cell == 15 then
-  move_x = (-1) * actor.car.current_speed * km_ratio
- end
- actor.x_dec += move_x
- actor.y_dec += move_y
- local cont = true
- while cont do
-  if actor.x_dec >= 10 then
-   actor.x += 1
-   actor.x_dec -= 10
-   if actor.x % 8 == 0 then
-    actor.cell += 1
-	   actor.x_dec = 0
-   end
-  elseif actor.x_dec <= -10 then
-   actor.x -= 1
-   actor.x_dec += 10
-   if actor.x % 8 == 0 then
-    actor.cell += 1
-	   actor.x_dec = 0
-   end
-  elseif actor.y_dec >= 10 then
-   actor.y += 1
-   actor.y_dec -= 10
-   if actor.y % 8 == 0 then
-    actor.cell += 1
-	   actor.y_dec = 0
-   end
-  elseif actor.y_dec <= -10 then
-   actor.y -= 1
-   actor.y_dec += 10
-   if actor.y % 8 == 0 then
-    actor.cell += 1
-	   actor.y_dec = 0
-   end
-  else
-   cont = false
+
+ if (ncell[1]+track.x > actor.x) then
+  actor.x += actor.car.current_speed * km_ratio
+  if (ncell[1]+track.x < actor.x) then
+   actor.x = ncell[1]+track.x
+  end
+ elseif (ncell[1]+track.x < actor.x) then
+  actor.x -= actor.car.current_speed * km_ratio
+  if (ncell[1]+track.x > actor.x) then
+   actor.x = ncell[1]+track.x
+  end
+ elseif (ncell[2]+track.y > actor.y) then
+  actor.y += actor.car.current_speed * km_ratio
+  if (ncell[2]+track.y < actor.y) then
+   actor.y = ncell[2]+track.y
+  end
+ elseif (ncell[2]+track.y < actor.y) then
+  actor.y -= actor.car.current_speed * km_ratio
+  if (ncell[2]+track.y > actor.y) then
+   actor.y = ncell[2]+track.y
   end
  end
- if ncell == 10 or
-  ncell == 42 then
+
+ if (ncell[1]+track.x == actor.x and
+  ncell[2]+track.y == actor.y) then
+  actor.cell += 1
+ end
+
+ if ncell[3] == 10 or
+  ncell[3] == 42 then
   actor.sprite = 48
- elseif ncell == 26 then
+ elseif ncell[3] == 26 then
   actor.sprite = 52
- elseif ncell == 11 or
-  ncell == 43 then
+ elseif ncell[3] == 11 or
+  ncell[3] == 43 then
   actor.sprite = 54
- elseif ncell == 27 then
+ elseif ncell[3] == 27 then
   actor.sprite = 50
- elseif ncell == 12 then
+ elseif ncell[3] == 12 then
   actor.sprite = 49
- elseif ncell == 13 then
+ elseif ncell[3] == 13 then
   actor.sprite = 55
- elseif ncell == 29 then
+ elseif ncell[3] == 29 then
   actor.sprite = 53
- elseif ncell == 28 then
+ elseif ncell[3] == 28 then
   actor.sprite = 51
- elseif ncell == 14 then
+ elseif ncell[3] == 14 then
   actor.sprite = 53
- elseif ncell == 30 then
+ elseif ncell[3] == 30 then
   actor.sprite = 55
- elseif ncell == 31 then
+ elseif ncell[3] == 31 then
   actor.sprite = 49
- elseif ncell == 15 then
+ elseif ncell[3] == 15 then
   actor.sprite = 51
  end
 end
@@ -985,10 +948,14 @@ function make_track()
  add(track.cells, {3,7,31})
  add(track.cells, {3,6,27})
  add(track.cells, {3,5,12})
+ for k, v in pairs(track.cells) do
+  v[1] = v[1]*8
+  v[2] = v[2]*8
+ end
  track.start_x = 
-  track.x+(8*track.cells[1][1])
+  track.x+(track.cells[1][1])
  track.start_y =
-  track.y+(8*track.cells[1][2])
+  track.y+(track.cells[1][2])
  return track
 end
 __gfx__
