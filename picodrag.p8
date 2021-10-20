@@ -188,8 +188,8 @@ end
 function draw_track(track)
  for k, v in pairs(track.cells) do
   spr(v[3],
-  track.x+(v[1]*8),
-  track.y+(v[2]*8))
+  track.x+v[1],
+  track.y+v[2])
  end
 end
 
@@ -466,8 +466,21 @@ function actor_update(actor, track)
   ncell = track.cells[1]
  end
 
- actor.x = (ncell[1]*8) + track.x
- actor.y = (ncell[2]*8) + track.y
+ if (ncell[1]+track.x > actor.x) then
+  actor.x += 1
+ elseif (ncell[1]+track.x < actor.x) then
+  actor.x -= 1
+ end
+ if (ncell[2]+track.y > actor.y) then
+  actor.y += 1
+ elseif (ncell[2]+track.y < actor.y) then
+  actor.y -= 1
+ end
+
+ if (ncell[1]+track.x == actor.x and
+  ncell[2]+track.y == actor.y) then
+  actor.cell += 1
+ end
 
  if ncell[3] == 10 or
   ncell[3] == 42 then
@@ -496,8 +509,6 @@ function actor_update(actor, track)
  elseif ncell[3] == 15 then
   actor.sprite = 51
  end
- 
- actor.cell += 1
 end
 
 function actors_update(opponents, player, track)
@@ -926,10 +937,14 @@ function make_track()
  add(track.cells, {3,7,31})
  add(track.cells, {3,6,27})
  add(track.cells, {3,5,12})
+ for k, v in pairs(track.cells) do
+  v[1] = v[1]*8
+  v[2] = v[2]*8
+ end
  track.start_x = 
-  track.x+(8*track.cells[1][1])
+  track.x+(track.cells[1][1])
  track.start_y =
-  track.y+(8*track.cells[1][2])
+  track.y+(track.cells[1][2])
  return track
 end
 __gfx__
