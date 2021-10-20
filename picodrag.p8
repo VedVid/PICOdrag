@@ -6,7 +6,7 @@ __lua__
 function _init()
  pi = 3.14
  fps = 30
- km_ratio = 0.1
+ km_ratio = 0.01
  track = make_track()
  player = make_player()
  opponents = make_opponents()
@@ -467,14 +467,25 @@ function actor_update(actor, track)
  end
 
  if (ncell[1]+track.x > actor.x) then
-  actor.x += 1
+  actor.x += actor.car.current_speed * km_ratio
+  if (ncell[1]+track.x < actor.x) then
+   actor.x = ncell[1]+track.x
+  end
  elseif (ncell[1]+track.x < actor.x) then
-  actor.x -= 1
- end
- if (ncell[2]+track.y > actor.y) then
-  actor.y += 1
+  actor.x -= actor.car.current_speed * km_ratio
+  if (ncell[1]+track.x > actor.x) then
+   actor.x = ncell[1]+track.x
+  end
+ elseif (ncell[2]+track.y > actor.y) then
+  actor.y += actor.car.current_speed * km_ratio
+  if (ncell[2]+track.y < actor.y) then
+   actor.y = ncell[2]+track.y
+  end
  elseif (ncell[2]+track.y < actor.y) then
-  actor.y -= 1
+  actor.y -= actor.car.current_speed * km_ratio
+  if (ncell[2]+track.y > actor.y) then
+   actor.y = ncell[2]+track.y
+  end
  end
 
  if (ncell[1]+track.x == actor.x and
