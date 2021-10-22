@@ -707,7 +707,7 @@ function make_pord()
  car.class = "road"
  car.year = 2017
  car.speedometer_interval = 20
- car.horsepower = 150
+ car.horsepower = 180
  car.rpm_max = 5700
  car.rpm_max_for_gauge = 5000
  car.speed_max_for_gauge = 200
