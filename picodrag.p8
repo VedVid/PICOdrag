@@ -413,7 +413,7 @@ function make_player()
  player.y_dec = 0
  player.sprite = 48
  player.cell = 1
- player.car = make_porssa()
+ player.car = make_auda()
  return player
 end
 
@@ -672,6 +672,166 @@ function make_hondu()
  car.gear_six_dropdown = 1250
  car.gear_six_dropdown_ratio =
   0.19
+ car.gears_data = {
+  {car.gear_one_vmax,
+   car.gear_one_time,
+   car.gear_one_dropdown},
+  {car.gear_two_vmax,
+   car.gear_two_time,
+   car.gear_two_dropdown},
+  {car.gear_three_vmax,
+   car.gear_three_time,
+   car.gear_three_dropdown},
+  {car.gear_four_vmax,
+   car.gear_four_time,
+   car.gear_four_dropdown},
+  {car.gear_five_vmax,
+   car.gear_five_time,
+   car.gear_five_dropdown},
+  {car.gear_six_vmax,
+   car.gear_six_time,
+   car.gear_six_dropdown}}
+ car.current_gear = 0
+ car.previous_gear = 0
+ car.current_rpm = 0
+ car.current_speed = 0
+ return car
+end
+
+function make_auda()
+ local car = {}
+ car.brand = "auda"
+ car.model = "1"
+ car.variant = ""
+ car.engine = "1.5"
+ car.class = "road"
+ car.year = 2019
+ car.speedometer_interval = 20
+ car.horsepower = 150
+ car.rpm_max = 5000
+ car.rpm_max_for_gauge = 4000
+ car.speed_max_for_gauge = 200
+ car.final_drive_ratio = 3.63
+ car.wheel_ratio = 0.28
+ -- {nm, rpm}
+ car.torque_max = {250, 2500}
+ car.gear_one_ratio = 3.77
+ car.gear_one_vmax = 38
+ car.gear_one_time = 1.7
+ car.gear_one_dropdown = 1000
+ -- dropdown ratio is % of dropdown of rpm_max
+ car.gear_one_dropdown_ratio =
+  0.2
+ car.gear_two_ratio = 1.96
+ car.gear_two_vmax = 72
+ car.gear_two_time = 4.47
+ car.gear_two_dropdown = 2000
+ car.gear_two_dropdown_ratio =
+  0.4
+ car.gear_three_ratio = 1.28
+ car.gear_three_vmax = 111
+ car.gear_three_time = 10.01
+ car.gear_three_dropdown = 1600
+ car.gear_three_dropdown_ratio =
+  0.32
+ car.gear_four_ratio = 0.93
+ car.gear_four_vmax = 153
+ car.gear_four_time = 21.66
+ car.gear_four_dropdown = 1300
+ car.gear_four_dropdown_ratio =
+  0.26
+ car.gear_five_ratio = 0.74
+ car.gear_five_vmax = 192
+ car.gear_five_time = 73
+ car.gear_five_dropdown = 1000
+ car.gear_five_dropdown_ratio =
+  0.2
+ car.gear_six_ratio = 0.64
+ car.gear_six_vmax = 223
+ car.gear_six_time = 107
+ car.gear_six_dropdown = 700
+ car.gear_six_dropdown_ratio =
+  0.14
+ car.gears_data = {
+  {car.gear_one_vmax,
+   car.gear_one_time,
+   car.gear_one_dropdown},
+  {car.gear_two_vmax,
+   car.gear_two_time,
+   car.gear_two_dropdown},
+  {car.gear_three_vmax,
+   car.gear_three_time,
+   car.gear_three_dropdown},
+  {car.gear_four_vmax,
+   car.gear_four_time,
+   car.gear_four_dropdown},
+  {car.gear_five_vmax,
+   car.gear_five_time,
+   car.gear_five_dropdown},
+  {car.gear_six_vmax,
+   car.gear_six_time,
+   car.gear_six_dropdown}}
+ car.current_gear = 0
+ car.previous_gear = 0
+ car.current_rpm = 0
+ car.current_speed = 0
+ return car
+end
+
+function make_pord()
+ local car = {}
+ car.brand = "pord"
+ car.model = "giusta"
+ car.variant = "st"
+ car.engine = "1.6"
+ car.class = "road"
+ car.year = 2017
+ car.speedometer_interval = 20
+ car.horsepower = 180
+ car.rpm_max = 5700
+ car.rpm_max_for_gauge = 5000
+ car.speed_max_for_gauge = 200
+ car.final_drive_ratio = 3.82
+ car.wheel_ratio = 0.27
+ -- {nm, rpm}
+ car.torque_max = {290, 3300}
+ car.gear_one_ratio = 3.72
+ car.gear_one_vmax = 41
+ car.gear_one_time = 1.68
+ car.gear_one_dropdown = 0
+ -- dropdown ratio is % of dropdown of rpm_max
+ car.gear_one_dropdown_ratio =
+  0.18
+ car.gear_two_ratio = 2.05
+ car.gear_two_vmax = 74
+ car.gear_two_time = 3.76
+ car.gear_two_dropdown = 2050
+ car.gear_two_dropdown_ratio =
+  0.36
+ car.gear_three_ratio = 1.36
+ car.gear_three_vmax = 112
+ car.gear_three_time = 7.71
+ car.gear_three_dropdown = 1700
+ car.gear_three_dropdown_ratio =
+  0.3
+ car.gear_four_ratio = 1.04
+ car.gear_four_vmax = 146
+ car.gear_four_time = 14.36
+ car.gear_four_dropdown = 1200
+ car.gear_four_dropdown_ratio =
+  0.21
+ car.gear_five_ratio = 0.82
+ car.gear_five_vmax = 186
+ car.gear_five_time = 27.66
+ car.gear_five_dropdown = 1100
+ car.gear_five_dropdown_ratio =
+  0.19
+ car.gear_six_ratio = 0.69
+ car.gear_six_vmax = 223
+ car.gear_six_time = 54.88
+ car.gear_six_dropdown = 900
+ car.gear_six_dropdown_ratio =
+  0.16
  car.gears_data = {
   {car.gear_one_vmax,
    car.gear_one_time,
