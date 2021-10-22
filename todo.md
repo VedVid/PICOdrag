@@ -9,4 +9,6 @@
 - [ ] There is something wrong with my acceleration calculations – new supercar has worse acceleration than basic sport car
 - [ ] AI should rely on two values: 1) gear shifting speed (time on zero-gear) 2) rpm accuracy (will ai shift gear exactly on max rpm? will it drive on max rpm for few secs? will shift gear too soon?)
 - [ ] Would need 4 cars per class
+- [ ] Abarb accelerates way slower than Pord and Auda
+- [ ] Hondu is way faster than Mitatsubi and BMM
 
